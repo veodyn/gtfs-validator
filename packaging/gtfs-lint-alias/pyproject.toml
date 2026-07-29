@@ -1,0 +1,30 @@
+# The old name, published as an alias rather than held empty.
+#
+# A package that exists only to occupy a name is squatting, and PyPI's policy
+# treats it that way. A rename alias is a different thing: it installs the
+# renamed project, so `pip install gtfs-lint` keeps working for anyone who
+# followed the old name, and the listing says plainly what happened.
+#
+# Built separately from the root project. Version tracks whatever gtfs-validator
+# release it points at.
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gtfs-lint"
+version = "0.1.0.dev0"
+description = "Renamed to gtfs-validator. This is an alias that installs it."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = ["gtfs-validator==0.1.0.dev0"]
+classifiers = [
+    "Development Status :: 7 - Inactive",
+    "Programming Language :: Python :: 3",
+]
+
+[tool.setuptools]
+# No code, so nothing to discover. Without this, setuptools errors out looking
+# for packages rather than building an empty distribution.
+packages = []

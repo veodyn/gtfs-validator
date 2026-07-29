@@ -1,0 +1,15 @@
+{
+  "_note": "Last-seen upstream position, read and written by tools/check_upstream.py. Checked in on purpose: the position is reviewable and only moves inside a commit.",
+  "validator": {
+    "repo": "MobilityData/gtfs-validator",
+    "tag": "v8.0.1",
+    "commit": "d74d7177f9f7c6bc7adc69508bb939362f2cf770"
+  },
+  "spec": {
+    "repo": "google/transit",
+    "path": "gtfs/spec/en/reference.md",
+    "commit": "ac663b574aae7223e45044b7733a1f101f0ab907",
+    "subject": "Update revision history - April 2026 (#627)"
+  },
+  "checked": "2026-07-29"
+}

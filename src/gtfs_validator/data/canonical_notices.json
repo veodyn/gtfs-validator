@@ -1,0 +1,1749 @@
+{
+  "_meta": {
+    "upstream": "https://github.com/MobilityData/gtfs-validator.git",
+    "tag": "v8.0.1",
+    "commit": "d74d7177f9f7c6bc7adc69508bb939362f2cf770"
+  },
+  "notices": {
+    "attribution_without_role": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "attributionId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/AttributionWithoutRoleValidator.java"
+    },
+    "bidirectional_exit_gate": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "pathwayMode": "integer",
+        "isBidirectional": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BidirectionalExitGateValidator.java"
+    },
+    "big_gap_in_service": {
+      "severity": "INFO",
+      "context_fields": {
+        "serviceId": "string",
+        "gapStartDate": "string",
+        "gapEndDate": "string",
+        "gapDurationDays": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ServiceSpreadValidator.java"
+    },
+    "block_trips_with_overlapping_stop_times": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumberA": "integer",
+        "tripIdA": "string",
+        "serviceIdA": "string",
+        "csvRowNumberB": "integer",
+        "tripIdB": "string",
+        "serviceIdB": "string",
+        "blockId": "string",
+        "intersection": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BlockTripsWithOverlappingStopTimesValidator.java"
+    },
+    "csv_parsing_failed": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "charIndex": "integer",
+        "columnIndex": "integer",
+        "lineIndex": "integer",
+        "message": "string",
+        "parsedContent": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/CsvParsingFailedNotice.java"
+    },
+    "decreasing_or_equal_stop_time_distance": {
+      "severity": "ERROR",
+      "context_fields": {
+        "tripId": "string",
+        "stopId": "string",
+        "csvRowNumber": "integer",
+        "shapeDistTraveled": "number",
+        "stopSequence": "integer",
+        "prevCsvRowNumber": "integer",
+        "prevShapeDistTraveled": "number",
+        "prevStopSequence": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeIncreasingDistanceValidator.java"
+    },
+    "decreasing_shape_distance": {
+      "severity": "ERROR",
+      "context_fields": {
+        "shapeId": "string",
+        "csvRowNumber": "integer",
+        "shapeDistTraveled": "number",
+        "shapePtSequence": "integer",
+        "prevCsvRowNumber": "integer",
+        "prevShapeDistTraveled": "number",
+        "prevShapePtSequence": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java"
+    },
+    "duplicate_fare_media": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber1": "integer",
+        "fareMediaId1": "string",
+        "csvRowNumber2": "integer",
+        "fareMediaId2": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/DuplicateFareMediaValidator.java"
+    },
+    "duplicate_geo_json_key": {
+      "severity": "ERROR",
+      "context_fields": {
+        "featureId": "string",
+        "firstIndex": "integer",
+        "secondIndex": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/DuplicateGeoJsonKeyNotice.java"
+    },
+    "duplicate_geography_id": {
+      "severity": "ERROR",
+      "context_fields": {
+        "geographyId": "string",
+        "csvRowNumberA": "integer",
+        "csvRowNumberB": "integer",
+        "featureIndex": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UniqueGeographyIdValidator.java"
+    },
+    "duplicate_key": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "oldCsvRowNumber": "integer",
+        "newCsvRowNumber": "integer",
+        "fieldName1": "string",
+        "fieldValue1": "object",
+        "fieldName2": "string",
+        "fieldValue2": "object"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/DuplicateKeyNotice.java"
+    },
+    "duplicate_route_name": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber1": "integer",
+        "routeId1": "string",
+        "csvRowNumber2": "integer",
+        "routeId2": "string",
+        "routeShortName": "string",
+        "routeLongName": "string",
+        "routeTypeValue": "integer",
+        "agencyId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/DuplicateRouteNameValidator.java"
+    },
+    "duplicated_column": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "fieldName": "string",
+        "firstIndex": "integer",
+        "secondIndex": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/DuplicatedColumnNotice.java"
+    },
+    "empty_column_name": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "index": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/EmptyColumnNameNotice.java"
+    },
+    "empty_file": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/EmptyFileNotice.java"
+    },
+    "empty_row": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/EmptyRowNotice.java"
+    },
+    "equal_shape_distance_diff_coordinates": {
+      "severity": "ERROR",
+      "context_fields": {
+        "shapeId": "string",
+        "csvRowNumber": "integer",
+        "shapeDistTraveled": "number",
+        "shapePtSequence": "integer",
+        "prevCsvRowNumber": "integer",
+        "prevShapeDistTraveled": "number",
+        "prevShapePtSequence": "integer",
+        "actualDistanceBetweenShapePoints": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java"
+    },
+    "equal_shape_distance_diff_coordinates_distance_below_threshold": {
+      "severity": "WARNING",
+      "context_fields": {
+        "shapeId": "string",
+        "csvRowNumber": "integer",
+        "shapeDistTraveled": "number",
+        "shapePtSequence": "integer",
+        "prevCsvRowNumber": "integer",
+        "prevShapeDistTraveled": "number",
+        "prevShapePtSequence": "integer",
+        "actualDistanceBetweenShapePoints": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java"
+    },
+    "equal_shape_distance_same_coordinates": {
+      "severity": "WARNING",
+      "context_fields": {
+        "shapeId": "string",
+        "csvRowNumber": "integer",
+        "shapeDistTraveled": "number",
+        "shapePtSequence": "integer",
+        "prevCsvRowNumber": "integer",
+        "prevShapeDistTraveled": "number",
+        "prevShapePtSequence": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java"
+    },
+    "expired_calendar": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "serviceId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ExpiredCalendarValidator.java"
+    },
+    "fare_product_with_multiple_default_rider_categories": {
+      "severity": "ERROR",
+      "context_fields": {
+        "fareProductId": "string",
+        "csvRowNumber1": "integer",
+        "csvRowNumber2": "integer",
+        "riderCategoryId1": "string",
+        "riderCategoryId2": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareProductDefaultRiderCategoriesValidator.java"
+    },
+    "fare_transfer_rule_duration_limit_type_without_duration_limit": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleDurationLimitTypeValidator.java"
+    },
+    "fare_transfer_rule_duration_limit_without_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleDurationLimitTypeValidator.java"
+    },
+    "fare_transfer_rule_invalid_transfer_count": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "transferCount": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleTransferCountValidator.java"
+    },
+    "fare_transfer_rule_missing_transfer_count": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/FareTransferRuleMissingTransferCountNotice.java"
+    },
+    "fare_transfer_rule_with_forbidden_transfer_count": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleTransferCountValidator.java"
+    },
+    "fare_transfer_rule_without_transfer_count": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleTransferCountValidator.java"
+    },
+    "fast_travel_between_consecutive_stops": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "tripId": "string",
+        "routeId": "string",
+        "speedKph": "number",
+        "distanceKm": "number",
+        "csvRowNumber1": "integer",
+        "stopSequence1": "integer",
+        "stopId1": "string",
+        "stopName1": "string",
+        "departureTime1": "object",
+        "csvRowNumber2": "integer",
+        "stopSequence2": "integer",
+        "stopId2": "string",
+        "stopName2": "string",
+        "arrivalTime2": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeTravelSpeedValidator.java"
+    },
+    "fast_travel_between_far_stops": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "tripId": "string",
+        "routeId": "string",
+        "speedKph": "number",
+        "distanceKm": "number",
+        "csvRowNumber1": "integer",
+        "stopSequence1": "integer",
+        "stopId1": "string",
+        "stopName1": "string",
+        "departureTime1": "object",
+        "csvRowNumber2": "integer",
+        "stopSequence2": "integer",
+        "stopId2": "string",
+        "stopName2": "string",
+        "arrivalTime2": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeTravelSpeedValidator.java"
+    },
+    "feed_expiration_date30_days": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "currentDate": "object",
+        "feedEndDate": "object",
+        "suggestedExpirationDate": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedExpirationDateValidator.java"
+    },
+    "feed_expiration_date7_days": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "currentDate": "object",
+        "feedEndDate": "object",
+        "suggestedExpirationDate": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedExpirationDateValidator.java"
+    },
+    "feed_info_lang_and_agency_lang_mismatch": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "agencyId": "string",
+        "agencyName": "string",
+        "agencyLang": "string",
+        "feedLang": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MatchingFeedAndAgencyLangValidator.java"
+    },
+    "feed_valid_beyond_total_service_window": {
+      "severity": "INFO",
+      "context_fields": {
+        "feedStartDate": "string",
+        "feedEndDate": "string",
+        "serviceWindowStartDate": "string",
+        "serviceWindowEndDate": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceWindowValidator.java"
+    },
+    "forbidden_arrival_or_departure_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "arrivalTime": "object",
+        "departureTime": "object",
+        "startPickupDropOffWindow": "object",
+        "endPickupDropOffWindow": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffWindowValidator.java"
+    },
+    "forbidden_continuous_pickup_drop_off": {
+      "severity": "ERROR",
+      "context_fields": {
+        "routeCsvRowNumber": "integer",
+        "tripId": "string",
+        "stopTimeCsvRowNumber": "integer",
+        "startPickupDropOffWindow": "object",
+        "endPickupDropOffWindow": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ContinuousPickupDropOffValidator.java"
+    },
+    "forbidden_drop_off_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "startPickupDropOffWindow": "object",
+        "endPickupDropOffWindow": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffTypeValidator.java"
+    },
+    "forbidden_geography_id": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "locationGroupId": "string",
+        "locationId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesGeographyIdPresenceValidator.java"
+    },
+    "forbidden_pickup_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "startPickupDropOffWindow": "object",
+        "endPickupDropOffWindow": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffTypeValidator.java"
+    },
+    "forbidden_prior_day_booking_field_value": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "fieldNames": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "forbidden_prior_notice_start_day": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "priorNoticeStartDay": "integer",
+        "priorNoticeDurationMax": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "forbidden_prior_notice_start_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "priorNoticeStartTime": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "forbidden_real_time_booking_field_value": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "fieldNames": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "forbidden_same_day_booking_field_value": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "fieldNames": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "forbidden_shape_dist_traveled": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string",
+        "locationGroupId": "string",
+        "locationId": "string",
+        "shapeDistTraveled": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesShapeDistTraveledPresenceValidator.java"
+    },
+    "foreign_key_violation": {
+      "severity": "ERROR",
+      "context_fields": {
+        "childFilename": "string",
+        "childFieldName": "string",
+        "parentFilename": "string",
+        "parentFieldName": "string",
+        "fieldValue": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/ForeignKeyViolationNotice.java"
+    },
+    "future_calendar": {
+      "severity": "INFO",
+      "context_fields": {
+        "minServiceStartDate": "string",
+        "currentDate": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceWindowValidator.java"
+    },
+    "future_feed": {
+      "severity": "INFO",
+      "context_fields": {
+        "feedStartDate": "object",
+        "currentDate": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedValidTodayValidator.java"
+    },
+    "geo_json_duplicated_element": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "duplicatedElement": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/GeoJsonDuplicatedElementNotice.java"
+    },
+    "geo_json_unknown_element": {
+      "severity": "INFO",
+      "context_fields": {
+        "filename": "string",
+        "unknownElement": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/GeoJsonUnknownElementNotice.java"
+    },
+    "inconsistent_agency_lang": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "expected": "string",
+        "actual": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/AgencyConsistencyValidator.java"
+    },
+    "inconsistent_agency_timezone": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "expected": "string",
+        "actual": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/AgencyConsistencyValidator.java"
+    },
+    "inconsistent_route_type_for_block_id": {
+      "severity": "WARNING",
+      "context_fields": {
+        "blockId": "string",
+        "routeIds": "string",
+        "routeTypes": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/InconsistentRouteTypeForBlockIdValidator.java"
+    },
+    "inconsistent_route_type_for_in_seat_transfer": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "fromRouteId": "string",
+        "toRouteId": "string",
+        "fromRouteType": "object",
+        "toRouteType": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/InconsistentRouteTypeForInSeatTransferValidator.java"
+    },
+    "invalid_character": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidCharacterNotice.java"
+    },
+    "invalid_color": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidColorNotice.java"
+    },
+    "invalid_currency": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidCurrencyNotice.java"
+    },
+    "invalid_currency_amount": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "currencyCode": "string",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidCurrencyAmountNotice.java"
+    },
+    "invalid_date": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidDateNotice.java"
+    },
+    "invalid_email": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidEmailNotice.java"
+    },
+    "invalid_float": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidFloatNotice.java"
+    },
+    "invalid_geometry": {
+      "severity": "ERROR",
+      "context_fields": {
+        "featureId": "string",
+        "featureIndex": "integer",
+        "geometryType": "string",
+        "message": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidGeometryNotice.java"
+    },
+    "invalid_input_files_in_subfolder": {
+      "severity": "ERROR",
+      "context_fields": {},
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidInputFilesInSubfolderNotice.java"
+    },
+    "invalid_integer": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidIntegerNotice.java"
+    },
+    "invalid_language_code": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidLanguageCodeNotice.java"
+    },
+    "invalid_phone_number": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidPhoneNumberNotice.java"
+    },
+    "invalid_pickup_drop_off_window": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "startPickupDropOffWindow": "object",
+        "endPickupDropOffWindow": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffWindowValidator.java"
+    },
+    "invalid_prior_notice_duration_min": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "priorNoticeDurationMin": "integer",
+        "priorNoticeDurationMax": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "invalid_row_length": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "rowLength": "integer",
+        "headerCount": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidRowLengthNotice.java"
+    },
+    "invalid_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidTimeNotice.java"
+    },
+    "invalid_timezone": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidTimezoneNotice.java"
+    },
+    "invalid_url": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidUrlNotice.java"
+    },
+    "leading_or_trailing_whitespaces": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/LeadingOrTrailingWhitespacesNotice.java"
+    },
+    "location_with_unexpected_stop_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "stopTimeCsvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationHasStopTimesValidator.java"
+    },
+    "location_without_parent_station": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "locationType": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationTypeSingleEntityValidator.java"
+    },
+    "malformed_json": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "message": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MalformedJsonNotice.java"
+    },
+    "missing_bike_allowance": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "routeId": "string",
+        "tripId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BikesAllowanceValidator.java"
+    },
+    "missing_calendar_and_calendar_date_files": {
+      "severity": "ERROR",
+      "context_fields": {},
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MissingCalendarAndCalendarDateValidator.java"
+    },
+    "missing_feed_contact_email_and_url": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedContactValidator.java"
+    },
+    "missing_feed_info_date": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "fieldName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceDateValidator.java"
+    },
+    "missing_level_id": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MissingLevelIdValidator.java"
+    },
+    "missing_pickup_drop_off_booking_rule_id": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "pickupType": "object",
+        "dropOffType": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupBookingRuleIdValidator.java"
+    },
+    "missing_pickup_or_drop_off_window": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "startPickupDropOffWindow": "object",
+        "endPickupDropOffWindow": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffWindowValidator.java"
+    },
+    "missing_prior_day_booking_field_value": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/MissingPriorDayBookingFieldValueNotice.java"
+    },
+    "missing_prior_notice_duration_min": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "missing_prior_notice_last_day": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "missing_prior_notice_last_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "missing_prior_notice_start_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "bookingRuleId": "string",
+        "priorNoticeStartDay": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "missing_recommended_column": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "fieldName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/MissingRecommendedColumnNotice.java"
+    },
+    "missing_recommended_field": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRecommendedFieldNotice.java"
+    },
+    "missing_recommended_file": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRecommendedFileNotice.java"
+    },
+    "missing_required_agency_id": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "agencyName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredAgencyIdNotice.java"
+    },
+    "missing_required_column": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "fieldName": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredColumnNotice.java"
+    },
+    "missing_required_element": {
+      "severity": "ERROR",
+      "context_fields": {
+        "featureIndex": "integer",
+        "featureId": "string",
+        "missingElement": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredElementNotice.java"
+    },
+    "missing_required_field": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredFieldNotice.java"
+    },
+    "missing_required_file": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredFileNotice.java"
+    },
+    "missing_stop_name": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopNameValidator.java"
+    },
+    "missing_stop_times_record": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string",
+        "locationGroupId": "string",
+        "locationId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesRecordValidator.java"
+    },
+    "missing_timepoint_value": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string",
+        "stopSequence": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimepointTimeValidator.java"
+    },
+    "missing_trip_edge": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopSequence": "integer",
+        "tripId": "string",
+        "specifiedField": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MissingTripEdgeValidator.java"
+    },
+    "mixed_case_recommended_field": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "fieldName": "string",
+        "fieldValue": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MixedCaseRecommendedFieldNotice.java"
+    },
+    "more_than_one_entity": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "entityCount": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MoreThanOneEntityNotice.java"
+    },
+    "new_line_in_value": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/NewLineInValueNotice.java"
+    },
+    "non_ascii_or_non_printable_char": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "columnName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/NonAsciiOrNonPrintableCharNotice.java"
+    },
+    "number_out_of_range": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldType": "string",
+        "fieldValue": "object"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/NumberOutOfRangeNotice.java"
+    },
+    "overlapping_frequency": {
+      "severity": "ERROR",
+      "context_fields": {
+        "prevCsvRowNumber": "integer",
+        "prevEndTime": "object",
+        "currCsvRowNumber": "integer",
+        "currStartTime": "object",
+        "tripId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/OverlappingFrequencyValidator.java"
+    },
+    "overlapping_zone_and_pickup_drop_off_window": {
+      "severity": "ERROR",
+      "context_fields": {
+        "tripId": "string",
+        "stopSequence1": "integer",
+        "locationId1": "string",
+        "startPickupDropOffWindow1": "object",
+        "endPickupDropOffWindow1": "object",
+        "stopSequence2": "integer",
+        "locationId2": "string",
+        "startPickupDropOffWindow2": "object",
+        "endPickupDropOffWindow2": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/OverlappingPickupDropOffZoneValidator.java"
+    },
+    "pathway_dangling_generic_node": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "parentStation": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayDanglingGenericNodeValidator.java"
+    },
+    "pathway_loop": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "pathwayId": "string",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayLoopValidator.java"
+    },
+    "pathway_to_platform_with_boarding_areas": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "pathwayId": "string",
+        "fieldName": "string",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayEndpointTypeValidator.java"
+    },
+    "pathway_to_stop_with_access_outside_of_station_pathways": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "pathwayId": "string",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayStopAccessValidator.java"
+    },
+    "pathway_to_wrong_location_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "pathwayId": "string",
+        "fieldName": "string",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayEndpointTypeValidator.java"
+    },
+    "pathway_unreachable_location": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "locationType": "integer",
+        "parentStation": "string",
+        "hasEntrance": "boolean",
+        "hasExit": "boolean"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayReachableLocationValidator.java"
+    },
+    "platform_without_parent_station": {
+      "severity": "INFO",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationTypeSingleEntityValidator.java"
+    },
+    "point_near_origin": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "featureIndex": "integer",
+        "entityId": "string",
+        "latFieldName": "string",
+        "latFieldValue": "number",
+        "lonFieldName": "string",
+        "lonFieldValue": "number"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/PointNearOriginNotice.java"
+    },
+    "point_near_pole": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "featureIndex": "integer",
+        "entityId": "string",
+        "latFieldName": "string",
+        "latFieldValue": "number",
+        "lonFieldName": "string",
+        "lonFieldValue": "number"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/PointNearPoleNotice.java"
+    },
+    "prior_notice_last_day_after_start_day": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "priorNoticeLastDay": "integer",
+        "priorNoticeStartDay": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java"
+    },
+    "route_both_short_and_long_name_missing": {
+      "severity": "ERROR",
+      "context_fields": {
+        "routeId": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java"
+    },
+    "route_color_contrast": {
+      "severity": "WARNING",
+      "context_fields": {
+        "routeId": "string",
+        "csvRowNumber": "integer",
+        "routeColor": "object",
+        "routeTextColor": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteColorContrastValidator.java"
+    },
+    "route_long_name_contains_short_name": {
+      "severity": "WARNING",
+      "context_fields": {
+        "routeId": "string",
+        "csvRowNumber": "integer",
+        "routeShortName": "string",
+        "routeLongName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java"
+    },
+    "route_networks_specified_in_more_than_one_file": {
+      "severity": "ERROR",
+      "context_fields": {
+        "fieldName": "string",
+        "fileNameA": "string",
+        "fileNameB": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/NetworkIdConsistencyValidator.java"
+    },
+    "route_short_name_too_long": {
+      "severity": "WARNING",
+      "context_fields": {
+        "routeId": "string",
+        "csvRowNumber": "integer",
+        "routeShortName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java"
+    },
+    "same_name_and_description_for_route": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "routeId": "string",
+        "routeDesc": "string",
+        "specifiedField": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java"
+    },
+    "same_name_and_description_for_stop": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopDesc": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopNameValidator.java"
+    },
+    "same_route_and_agency_url": {
+      "severity": "WARNING",
+      "context_fields": {
+        "routeCsvRowNumber": "integer",
+        "routeId": "string",
+        "agencyName": "string",
+        "routeUrl": "string",
+        "agencyCsvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UrlConsistencyValidator.java"
+    },
+    "same_stop_and_agency_url": {
+      "severity": "WARNING",
+      "context_fields": {
+        "stopCsvRowNumber": "integer",
+        "stopId": "string",
+        "agencyName": "string",
+        "stopUrl": "string",
+        "agencyCsvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UrlConsistencyValidator.java"
+    },
+    "same_stop_and_route_url": {
+      "severity": "WARNING",
+      "context_fields": {
+        "stopCsvRowNumber": "integer",
+        "stopId": "string",
+        "stopUrl": "string",
+        "routeId": "string",
+        "routeCsvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UrlConsistencyValidator.java"
+    },
+    "service_extends_far_in_the_future": {
+      "severity": "INFO",
+      "context_fields": {
+        "serviceId": "string",
+        "serviceWindowEndDate": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ServiceSpreadValidator.java"
+    },
+    "service_has_no_active_day_of_the_week": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "serviceId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ServiceHasNoActiveDayOfTheWeekValidator.java"
+    },
+    "service_window_outside_feed_period": {
+      "severity": "INFO",
+      "context_fields": {
+        "serviceId": "string",
+        "serviceWindowStartDate": "string",
+        "serviceWindowEndDate": "string",
+        "daysBeforeFeedStart": "integer",
+        "daysAfterFeedEnd": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceWindowValidator.java"
+    },
+    "single_shape_point": {
+      "severity": "WARNING",
+      "context_fields": {
+        "shapeId": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/SingleShapePointValidator.java"
+    },
+    "start_and_end_range_equal": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "entityId": "string",
+        "startFieldName": "string",
+        "endFieldName": "string",
+        "value": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/StartAndEndRangeEqualNotice.java"
+    },
+    "start_and_end_range_out_of_order": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "entityId": "string",
+        "startFieldName": "string",
+        "startValue": "string",
+        "endFieldName": "string",
+        "endValue": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/StartAndEndRangeOutOfOrderNotice.java"
+    },
+    "station_with_parent_station": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "parentStation": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationTypeSingleEntityValidator.java"
+    },
+    "stop_access_specified_for_incorrect_location": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "stopAccess": "object",
+        "locationType": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopAccessValidator.java"
+    },
+    "stop_access_specified_for_stop_with_no_parent_station": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "stopAccess": "object",
+        "locationType": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopAccessValidator.java"
+    },
+    "stop_has_too_many_matches_for_shape": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "shapeId": "string",
+        "tripId": "string",
+        "stopTimeCsvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "match": "object",
+        "matchCount": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java"
+    },
+    "stop_time_timepoint_without_times": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string",
+        "stopSequence": "integer",
+        "specifiedField": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimepointTimeValidator.java"
+    },
+    "stop_time_with_arrival_before_previous_departure_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "prevCsvRowNumber": "integer",
+        "tripId": "string",
+        "arrivalTime": "object",
+        "departureTime": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeArrivalAndDepartureTimeValidator.java"
+    },
+    "stop_time_with_only_arrival_or_departure_time": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string",
+        "stopSequence": "integer",
+        "specifiedField": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeArrivalAndDepartureTimeValidator.java"
+    },
+    "stop_too_far_from_shape": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "shapeId": "string",
+        "tripId": "string",
+        "stopTimeCsvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "match": "object",
+        "geoDistanceToShape": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java"
+    },
+    "stop_too_far_from_shape_using_user_distance": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "shapeId": "string",
+        "tripId": "string",
+        "stopTimeCsvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "match": "object",
+        "geoDistanceToShape": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java"
+    },
+    "stop_without_location": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "locationType": "object",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopRequiredLocationValidator.java"
+    },
+    "stop_without_stop_time": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationHasStopTimesValidator.java"
+    },
+    "stop_without_zone_id": {
+      "severity": "INFO",
+      "context_fields": {
+        "stopId": "string",
+        "stopName": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopZoneIdValidator.java"
+    },
+    "stops_match_shape_out_of_order": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "shapeId": "string",
+        "tripId": "string",
+        "stopTimeCsvRowNumber1": "integer",
+        "stopId1": "string",
+        "stopName1": "string",
+        "match1": "object",
+        "stopTimeCsvRowNumber2": "integer",
+        "stopId2": "string",
+        "stopName2": "string",
+        "match2": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java"
+    },
+    "timeframe_only_start_or_end_time_specified": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimeframeStartAndEndTimeValidator.java"
+    },
+    "timeframe_overlap": {
+      "severity": "ERROR",
+      "context_fields": {
+        "prevCsvRowNumber": "integer",
+        "prevEndTime": "object",
+        "currCsvRowNumber": "integer",
+        "currStartTime": "object",
+        "timeframeGroupId": "string",
+        "serviceId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimeframeOverlapValidator.java"
+    },
+    "timeframe_start_or_end_time_greater_than_twenty_four_hours": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "time": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimeframeStartAndEndTimeValidator.java"
+    },
+    "too_many_rows": {
+      "severity": "ERROR",
+      "context_fields": {
+        "filename": "string",
+        "rowNumber": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/TooManyRowsNotice.java"
+    },
+    "transfer_distance_above_2_km": {
+      "severity": "INFO",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "fromStopId": "string",
+        "toStopId": "string",
+        "distanceKm": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransferDistanceValidator.java"
+    },
+    "transfer_distance_too_large": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "fromStopId": "string",
+        "toStopId": "string",
+        "distanceKm": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransferDistanceValidator.java"
+    },
+    "transfer_with_invalid_stop_location_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopIdFieldName": "string",
+        "stopId": "string",
+        "locationTypeValue": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersStopTypeValidator.java"
+    },
+    "transfer_with_invalid_trip_and_route": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripFieldName": "string",
+        "tripId": "string",
+        "routeFieldName": "string",
+        "routeId": "string",
+        "expectedRouteId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersTripReferenceValidator.java"
+    },
+    "transfer_with_invalid_trip_and_stop": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripFieldName": "string",
+        "tripId": "string",
+        "stopFieldName": "string",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersTripReferenceValidator.java"
+    },
+    "transfer_with_suspicious_mid_trip_in_seat": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripIdFieldName": "string",
+        "tripId": "string",
+        "stopIdFieldName": "string",
+        "stopId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersInSeatTransferTypeValidator.java"
+    },
+    "translation_foreign_key_violation": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tableName": "string",
+        "recordId": "string",
+        "recordSubId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TranslationFieldAndReferenceValidator.java"
+    },
+    "translation_unexpected_value": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TranslationFieldAndReferenceValidator.java"
+    },
+    "translation_unknown_table_name": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tableName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TranslationFieldAndReferenceValidator.java"
+    },
+    "trip_coverage_not_active_for_next7_days": {
+      "severity": "WARNING",
+      "context_fields": {
+        "currentDate": "object",
+        "serviceWindowStartDate": "object",
+        "serviceWindowEndDate": "object"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/DateTripsValidator.java"
+    },
+    "trip_distance_exceeds_shape_distance": {
+      "severity": "ERROR",
+      "context_fields": {
+        "tripId": "string",
+        "shapeId": "string",
+        "maxTripDistanceTraveled": "number",
+        "maxShapeDistanceTraveled": "number",
+        "geoDistanceToShape": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripAndShapeDistanceValidator.java"
+    },
+    "trip_distance_exceeds_shape_distance_below_threshold": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripId": "string",
+        "shapeId": "string",
+        "maxTripDistanceTraveled": "number",
+        "maxShapeDistanceTraveled": "number",
+        "geoDistanceToShape": "number"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripAndShapeDistanceValidator.java"
+    },
+    "trip_headsign_matches_intermediate_stop": {
+      "severity": "INFO",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string",
+        "tripHeadsign": "string",
+        "stopId1": "string",
+        "stopSequence": "integer",
+        "stopId2": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripHeadsignValidator.java"
+    },
+    "trip_with_shape_dist_traveled_but_no_shape_distances": {
+      "severity": "INFO",
+      "context_fields": {
+        "tripCsvRowNumber": "integer",
+        "tripId": "string",
+        "shapeId": "string",
+        "stopTimeCsvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripWithShapeDistTraveledButNoShapeDistancesValidator.java"
+    },
+    "unexpected_enum_value": {
+      "severity": "WARNING",
+      "context_fields": {
+        "filename": "string",
+        "csvRowNumber": "integer",
+        "fieldName": "string",
+        "fieldValue": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnexpectedEnumValueNotice.java"
+    },
+    "unknown_column": {
+      "severity": "INFO",
+      "context_fields": {
+        "filename": "string",
+        "fieldName": "string",
+        "index": "integer"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnknownColumnNotice.java"
+    },
+    "unknown_file": {
+      "severity": "INFO",
+      "context_fields": {
+        "filename": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnknownFileNotice.java"
+    },
+    "unsorted_stop_times": {
+      "severity": "INFO",
+      "context_fields": {
+        "tripId": "string",
+        "startCsvRowNumber": "integer",
+        "endCsvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesTripBlockOrderValidator.java"
+    },
+    "unsupported_feature_type": {
+      "severity": "ERROR",
+      "context_fields": {},
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnsupportedFeatureTypeNotice.java"
+    },
+    "unsupported_geo_json_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "geoJsonType": "string",
+        "message": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnsupportedGeoJsonTypeNotice.java"
+    },
+    "unsupported_geometry_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "featureIndex": "integer",
+        "featureId": "string",
+        "geometryType": "string"
+      },
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnsupportedGeometryTypeNotice.java"
+    },
+    "unusable_trip": {
+      "severity": "WARNING",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "tripId": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripUsabilityValidator.java"
+    },
+    "unused_parent_station": {
+      "severity": "INFO",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/UnusedParentStationNotice.java"
+    },
+    "unused_shape": {
+      "severity": "WARNING",
+      "context_fields": {
+        "shapeId": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeUsageValidator.java"
+    },
+    "unused_station": {
+      "severity": "INFO",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ParentStationValidator.java"
+    },
+    "unused_trip": {
+      "severity": "WARNING",
+      "context_fields": {
+        "tripId": "string",
+        "csvRowNumber": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripUsageValidator.java"
+    },
+    "wrong_parent_location_type": {
+      "severity": "ERROR",
+      "context_fields": {
+        "csvRowNumber": "integer",
+        "stopId": "string",
+        "stopName": "string",
+        "locationType": "integer",
+        "parentCsvRowNumber": "integer",
+        "parentStation": "string",
+        "parentStopName": "string",
+        "parentLocationType": "integer",
+        "expectedLocationType": "integer"
+      },
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ParentStationValidator.java"
+    }
+  }
+}

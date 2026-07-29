@@ -1,0 +1,422 @@
+[
+ {
+  "mdb_source_id": 904,
+  "country": "AE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ae-dubayy-road-and-transport-authority-rta-gtfs-904.zip?alt=media",
+  "bytes": 8854548,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 2345,
+  "country": "AL",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/al-tirana-municipality-of-tirana-gtfs-2345.zip?alt=media",
+  "bytes": 2319081,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 6,
+  "country": "AR",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ar-buenos-aires-subterraneos-de-buenos-aires-subte-gtfs-6.zip?alt=media",
+  "bytes": 44940,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 648,
+  "country": "AT",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/at-wien-wiener-lokalbahnen-wlb-gtfs-648.zip?alt=media",
+  "bytes": 65440969,
+  "band": "huge"
+ },
+ {
+  "mdb_source_id": 649,
+  "country": "AU",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/au-victoria-port-phillip-ferries-gtfs-649.zip?alt=media",
+  "bytes": 6058,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 684,
+  "country": "BE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/be-vlaams-gewest-de-lijn-gtfs-684.zip?alt=media",
+  "bytes": 199676529,
+  "band": "huge"
+ },
+ {
+  "mdb_source_id": 2119,
+  "country": "BG",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/bg-pleven-trolleybus-transport-pleven-gtfs-2119.zip?alt=media",
+  "bytes": 196444,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 7,
+  "country": "BR",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/br-rio-grande-do-sul-empresa-publica-de-transportes-e-circulacao-eptc-gtfs-7.zip?alt=media",
+  "bytes": 4809990,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 2,
+  "country": "CA",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ca-ontario-london-transit-commission-gtfs-2.zip?alt=media",
+  "bytes": 2229982,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 1963,
+  "country": "CD",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/cd-kinshasa-esprit-de-mort-gtfs-1963.zip?alt=media",
+  "bytes": 1374161,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 913,
+  "country": "CI",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ci-abidjan-divers-operateurs-gtfs-913.zip?alt=media",
+  "bytes": 1708360,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 561,
+  "country": "CL",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/cl-coquimbo-liserco-gtfs-561.zip?alt=media",
+  "bytes": 2105412,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 766,
+  "country": "CM",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/cm-littoral-socatur-gtfs-766.zip?alt=media",
+  "bytes": 18180,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 1204,
+  "country": "CO",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/co-distrito-capital-de-bogota-simur-bogota-gtfs-1204.zip?alt=media",
+  "bytes": 26837066,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 2151,
+  "country": "CR",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/cr-san-jose-daytrip-shuttle-gtfs-2151.zip?alt=media",
+  "bytes": 6456,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 1915,
+  "country": "CY",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/cy-unknown-osypa-gtfs-1915.zip?alt=media",
+  "bytes": 1071294,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 767,
+  "country": "CZ",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/cz-praha-prazska-integrovana-doprava-pid-gtfs-767.zip?alt=media",
+  "bytes": 45849517,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 768,
+  "country": "DE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/de-bayern-gesamtnetz-der-deutschen-bahn-gtfs-768.zip?alt=media",
+  "bytes": 409513,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1914,
+  "country": "DO",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/es-santiago-gtfs-1914.zip?alt=media",
+  "bytes": 457706,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1199,
+  "country": "DZ",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/dz-unknown-societe-nationale-des-transports-ferroviaires-sntf-algeria-gtfs-1199.zip?alt=media",
+  "bytes": 24892,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 1095,
+  "country": "EE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ee-unknown-abuss-ou-gtfs-1095.zip?alt=media",
+  "bytes": 18517281,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 786,
+  "country": "EG",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/eg-al-qahirah-cairo-metro-gtfs-786.zip?alt=media",
+  "bytes": 93382,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 787,
+  "country": "ES",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/es-canarias-transportes-interurbanos-de-tenerife-titsa-gtfs-787.zip?alt=media",
+  "bytes": 20275819,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 1808,
+  "country": "ET",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/et-addis-ababa-addis-ababa-transport-authority-gtfs-1808.zip?alt=media",
+  "bytes": 550992,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 864,
+  "country": "FI",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/fi-varsinais-suomi-turku-gtfs-864.zip?alt=media",
+  "bytes": 16058955,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 598,
+  "country": "FR",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/fr-auvergne-rhone-alpes-jybus-gtfs-598.zip?alt=media",
+  "bytes": 61745,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 986,
+  "country": "GB",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/gb-windsor-and-maidenhead-french-brothers-ltd-gtfs-986.zip?alt=media",
+  "bytes": 11493,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 3108,
+  "country": "GE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ge-unknown-georgian-railway-gtfs-3108.zip?alt=media",
+  "bytes": 1213551,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 2615,
+  "country": "GG",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/gg-unknown-sarkshipping-gtfs-2615.zip?alt=media",
+  "bytes": 2541,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 881,
+  "country": "GH",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/gh-greater-accra-ama-department-of-transport-gtfs-881.zip?alt=media",
+  "bytes": 1329406,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 2596,
+  "country": "GL",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/gl-nuuk-kommuneqarfik-sermersooq-nuup-bussii-gtfs-2596.zip?alt=media",
+  "bytes": 1265605,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 1161,
+  "country": "GR",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/gr-thessaloniki-trainose-gtfs-1161.zip?alt=media",
+  "bytes": 38057,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 1924,
+  "country": "HK",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/hk-unknown-hong-kong-government-transport-department-gtfs-1924.zip?alt=media",
+  "bytes": 10740297,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 1184,
+  "country": "HR",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/hr-grad-zagreb-zagrebacki-elektricni-tramvaj-zet-gtfs-1184.zip?alt=media",
+  "bytes": 10672498,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 861,
+  "country": "HU",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/hu-pecs-biokom-gtfs-861.zip?alt=media",
+  "bytes": 2264082,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 1018,
+  "country": "ID",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/id-bali-monkey-forest-ubud-shuttle-gtfs-1018.zip?alt=media",
+  "bytes": 6068,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 937,
+  "country": "IE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ie-dublin-aircoach-gtfs-937.zip?alt=media",
+  "bytes": 821630,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 921,
+  "country": "IN",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/in-andhra-pradesh-hyderabad-multi-modal-transport-system-gtfs-921.zip?alt=media",
+  "bytes": 19495,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 643,
+  "country": "IT",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/it-liguria-atp-esercizio-srl-gtfs-643.zip?alt=media",
+  "bytes": 7046051,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 872,
+  "country": "JP",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/jp-hyogo-kobe-subway-gtfs-872.zip?alt=media",
+  "bytes": 99690,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 1815,
+  "country": "KE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ke-nairobi-city-digitalmatatus-gtfs-1815.zip?alt=media",
+  "bytes": 477256,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1040,
+  "country": "LT",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/lt-alytaus-apskritis-kautra-gtfs-1040.zip?alt=media",
+  "bytes": 181165,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1091,
+  "country": "LU",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/lu-unknown-dpn-gtfs-1091.zip?alt=media",
+  "bytes": 3881136,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 884,
+  "country": "LV",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/lv-riga-rigas-satiksme-gtfs-884.zip?alt=media",
+  "bytes": 1563715,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 1816,
+  "country": "MA",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ma-tetouan-vitalis-transport-gtfs-1816.zip?alt=media",
+  "bytes": 669220,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 2341,
+  "country": "MD",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/md-chisinau-regia-transport-electric-chisinau-gtfs-2341.zip?alt=media",
+  "bytes": 2332389,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 2377,
+  "country": "ME",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/me-zpcg-gtfs-2377.zip?alt=media",
+  "bytes": 417331,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 3045,
+  "country": "MK",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/mk-skopje-jsp-skopje-gtfs-3045.zip?alt=media",
+  "bytes": 679403,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1807,
+  "country": "ML",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ml-bamako-somatra-gtfs-1807.zip?alt=media",
+  "bytes": 625473,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1099,
+  "country": "MX",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/mx-distrito-federal-corredores-concesionados-gtfs-1099.zip?alt=media",
+  "bytes": 576845,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 3157,
+  "country": "MY",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/my-perlis-basmy-kangar-gtfs-3157.zip?alt=media",
+  "bytes": 79556,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 3144,
+  "country": "NG",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ng-lagos-state-waterways-gtfs-3144.zip?alt=media",
+  "bytes": 70717,
+  "band": "tiny"
+ },
+ {
+  "mdb_source_id": 1021,
+  "country": "NI",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ni-managua-mapanica-managua-gtfs-1021.zip?alt=media",
+  "bytes": 9326040,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 983,
+  "country": "NZ",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/nz-otago-otago-regional-council-orc-gtfs-983.zip?alt=media",
+  "bytes": 601985,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1985,
+  "country": "PE",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/pe-aeroexpreso-gtfs-1985.zip?alt=media",
+  "bytes": 624446,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1104,
+  "country": "RO",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ro-unknown-cfr-calatori-gtfs-1104.zip?alt=media",
+  "bytes": 743456,
+  "band": "small"
+ },
+ {
+  "mdb_source_id": 1027,
+  "country": "RS",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/rs-beograd-republic-of-serbia-gtfs-1027.zip?alt=media",
+  "bytes": 13499293,
+  "band": "large"
+ },
+ {
+  "mdb_source_id": 1076,
+  "country": "SG",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/sg-unknown-smrt-gtfs-1076.zip?alt=media",
+  "bytes": 1212297,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 1005,
+  "country": "SK",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/sk-bratislavsky-kraj-dopravny-podnik-bratislava-gtfs-1005.zip?alt=media",
+  "bytes": 8635803,
+  "band": "medium"
+ },
+ {
+  "mdb_source_id": 2374,
+  "country": "UA",
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/ua-lviv-lvivavtodor-gtfs-2374.zip?alt=media",
+  "bytes": 3212294,
+  "band": "medium"
+ }
+]

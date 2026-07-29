@@ -1,0 +1,77 @@
+# Weekly check for upstream movement. Detection only: no model, no clone, no
+# write to the repository. It opens an issue and a human does the work.
+#
+# Two signals, and they are not interchangeable. Parity is with the pinned jar,
+# so a MobilityData release (exit 20) can change our behaviour and a merged but
+# unreleased GTFS spec change (exit 10) cannot. Exit 10 is advisory.
+name: upstream-watch
+
+on:
+  schedule:
+    # Mondays 06:00 UTC. A quiet week costs one short job and opens nothing.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check upstream
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          python tools/check_upstream.py --json > delta.json
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+          cat delta.json
+
+      # An unreachable API must never read as "nothing moved". That failure mode
+      # is the reason this job exists at all, so it fails the run instead.
+      - name: Unknown is not unchanged
+        if: ${{ !contains(fromJSON('["0","10","20"]'), steps.check.outputs.code) }}
+        run: |
+          echo "::error::upstream check failed (exit ${{ steps.check.outputs.code }}); \
+          this is unknown, not unchanged"
+          exit 1
+
+      - name: Open an issue
+        if: ${{ contains(fromJSON('["10","20"]'), steps.check.outputs.code) }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ steps.check.outputs.code }}" = "20" ]; then
+            title="Upstream released $(jq -r .validator.to.tag delta.json)"
+          else
+            title="GTFS spec moved: $(jq -r '.spec.commits | length' delta.json) commit(s)"
+          fi
+          # The title is stable while the change is unhandled, so a second week
+          # of the same movement does not open a second issue.
+          existing=$(gh issue list --state open --search "$title in:title" --json number --jq length)
+          if [ "$existing" != "0" ]; then
+            echo "already open: $title"
+            exit 0
+          fi
+          {
+            echo "Detected by \`tools/check_upstream.py\` (exit ${{ steps.check.outputs.code }})."
+            echo
+            echo "Exit 10 is advisory: log it in \`upstream/pending-spec-changes.md\` and touch"
+            echo "no source. Exit 20 means the pin can move: re-run the three generators in"
+            echo "\`tools/\` at the new tag, diff \`src/gtfs_validator/data/\`, and read that diff"
+            echo "as the change list. See AGENTS.md."
+            echo
+            echo '```json'
+            cat delta.json
+            echo '```'
+          } > body.md
+          gh issue create --title "$title" --body-file body.md

@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "method": "Locale.Builder().setLanguageTag()",
+    "source": "java.util / libphonenumber, as bundled in gtfs-validator 8.0.1"
+  },
+  "tags": {
+    "": false,
+    "-en": false,
+    "123": false,
+    "EN": true,
+    "abcdefgh": true,
+    "abcdefghi": false,
+    "art-lojban": true,
+    "de-DE-1901": true,
+    "e": false,
+    "en": true,
+    "en-": false,
+    "en--US": false,
+    "en-Latn-US-fonipa-x-eng": true,
+    "en-US": true,
+    "en-US-u-ca-gregory": true,
+    "en-USA": true,
+    "en-a-bbb-x-a-ccc": true,
+    "en-us": true,
+    "en_US": false,
+    "eng": true,
+    "es-419": true,
+    "i-klingon": true,
+    "qaa": true,
+    "sl-rozaj-biske": true,
+    "toolongprimarysubtag": false,
+    "x-private": true,
+    "xx": true,
+    "zh-Hant": true,
+    "zh-Hant-TW": true
+  }
+}

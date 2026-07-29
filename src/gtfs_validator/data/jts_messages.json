@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "generator": "tools/generate_jts_messages.py",
+    "note": "Generated. Edit the generator and re-run; a hand edit makes the drift test lie. ACCEPTED means the pinned JTS builds that ring rather than refusing it, which is itself part of the contract.",
+    "source": "org.locationtech.jts, as bundled in the pinned gtfs-validator jar"
+  },
+  "construction_errors": {
+    "empty": "ACCEPTED",
+    "one_point": "Invalid number of points in LineString (found 1 - must be 0 or >= 2)",
+    "shell_empty_holes_not": "shell is empty but holes are not",
+    "three_points": "ACCEPTED",
+    "two_points": "Invalid number of points in LinearRing (found 2 - must be 0 or >= 3)",
+    "unclosed_ring": "Points of LinearRing do not form a closed linestring"
+  },
+  "measured_cases": {
+    "disconnected_interior": "5\tSelf-intersection",
+    "hole_outside_shell": "2\tHole lies outside shell",
+    "invalid_coordinate": "THROWS\tPoints of LinearRing do not form a closed linestring",
+    "nested_holes": "3\tHoles are nested",
+    "ring_self_intersection": "5\tSelf-intersection",
+    "self_intersection": "3\tHoles are nested",
+    "too_few_distinct_points": "9\tToo few distinct points in geometry component"
+  },
+  "topology_errors": {
+    "DISCONNECTED_INTERIOR": "Interior is disconnected",
+    "DUPLICATE_RINGS": "Duplicate Rings",
+    "HOLE_OUTSIDE_SHELL": "Hole lies outside shell",
+    "INVALID_COORDINATE": "Invalid Coordinate",
+    "NESTED_HOLES": "Holes are nested",
+    "NESTED_SHELLS": "Nested shells",
+    "REPEATED_POINT": "Repeated Point",
+    "RING_NOT_CLOSED": "Ring is not closed",
+    "RING_SELF_INTERSECTION": "Ring Self-intersection",
+    "SELF_INTERSECTION": "Self-intersection",
+    "TOO_FEW_POINTS": "Too few distinct points in geometry component",
+    "TOPOLOGY_VALIDATION_ERROR": "Topology Validation Error"
+  }
+}

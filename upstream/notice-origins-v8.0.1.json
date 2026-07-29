@@ -1,0 +1,1577 @@
+{
+  "_meta": {
+    "commit": "d74d7177f9f7c6bc7adc69508bb939362f2cf770",
+    "commit_date": "2026-05-12",
+    "measured_on": "2026-07-24",
+    "method": "static scan of classes extending ValidationNotice; layer inferred from defining path",
+    "tag": "v8.0.1",
+    "upstream": "MobilityData/gtfs-validator"
+  },
+  "notices": {
+    "attribution_without_role": {
+      "code": "attribution_without_role",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/AttributionWithoutRoleValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "bidirectional_exit_gate": {
+      "code": "bidirectional_exit_gate",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BidirectionalExitGateValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "big_gap_in_service": {
+      "code": "big_gap_in_service",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ServiceSpreadValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "block_trips_with_overlapping_stop_times": {
+      "code": "block_trips_with_overlapping_stop_times",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BlockTripsWithOverlappingStopTimesValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "csv_parsing_failed": {
+      "code": "csv_parsing_failed",
+      "constructed_by": [
+        "engine:table"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/CsvParsingFailedNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "decreasing_or_equal_stop_time_distance": {
+      "code": "decreasing_or_equal_stop_time_distance",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeIncreasingDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "decreasing_shape_distance": {
+      "code": "decreasing_shape_distance",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "duplicate_fare_media": {
+      "code": "duplicate_fare_media",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/DuplicateFareMediaValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "duplicate_geo_json_key": {
+      "code": "duplicate_geo_json_key",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/DuplicateGeoJsonKeyNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "duplicate_geography_id": {
+      "code": "duplicate_geography_id",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UniqueGeographyIdValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "duplicate_key": {
+      "code": "duplicate_key",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/DuplicateKeyNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "duplicate_route_name": {
+      "code": "duplicate_route_name",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/DuplicateRouteNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "duplicated_column": {
+      "code": "duplicated_column",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/DuplicatedColumnNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "empty_column_name": {
+      "code": "empty_column_name",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/EmptyColumnNameNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "empty_file": {
+      "code": "empty_file",
+      "constructed_by": [
+        "engine:table"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/EmptyFileNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "empty_row": {
+      "code": "empty_row",
+      "constructed_by": [
+        "engine:parse"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/EmptyRowNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "WARNING"
+    },
+    "equal_shape_distance_diff_coordinates": {
+      "code": "equal_shape_distance_diff_coordinates",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "equal_shape_distance_diff_coordinates_distance_below_threshold": {
+      "code": "equal_shape_distance_diff_coordinates_distance_below_threshold",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "equal_shape_distance_same_coordinates": {
+      "code": "equal_shape_distance_same_coordinates",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeIncreasingDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "expired_calendar": {
+      "code": "expired_calendar",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ExpiredCalendarValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "fare_product_with_multiple_default_rider_categories": {
+      "code": "fare_product_with_multiple_default_rider_categories",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareProductDefaultRiderCategoriesValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "fare_transfer_rule_duration_limit_type_without_duration_limit": {
+      "code": "fare_transfer_rule_duration_limit_type_without_duration_limit",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleDurationLimitTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "fare_transfer_rule_duration_limit_without_type": {
+      "code": "fare_transfer_rule_duration_limit_without_type",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleDurationLimitTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "fare_transfer_rule_invalid_transfer_count": {
+      "code": "fare_transfer_rule_invalid_transfer_count",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleTransferCountValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "fare_transfer_rule_missing_transfer_count": {
+      "code": "fare_transfer_rule_missing_transfer_count",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/FareTransferRuleMissingTransferCountNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "other",
+      "severity": "ERROR"
+    },
+    "fare_transfer_rule_with_forbidden_transfer_count": {
+      "code": "fare_transfer_rule_with_forbidden_transfer_count",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleTransferCountValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "fare_transfer_rule_without_transfer_count": {
+      "code": "fare_transfer_rule_without_transfer_count",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FareTransferRuleTransferCountValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "fast_travel_between_consecutive_stops": {
+      "code": "fast_travel_between_consecutive_stops",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeTravelSpeedValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "fast_travel_between_far_stops": {
+      "code": "fast_travel_between_far_stops",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeTravelSpeedValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "feed_expiration_date30_days": {
+      "code": "feed_expiration_date30_days",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedExpirationDateValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "feed_expiration_date7_days": {
+      "code": "feed_expiration_date7_days",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedExpirationDateValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "feed_info_lang_and_agency_lang_mismatch": {
+      "code": "feed_info_lang_and_agency_lang_mismatch",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MatchingFeedAndAgencyLangValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "feed_valid_beyond_total_service_window": {
+      "code": "feed_valid_beyond_total_service_window",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceWindowValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "forbidden_arrival_or_departure_time": {
+      "code": "forbidden_arrival_or_departure_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffWindowValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_continuous_pickup_drop_off": {
+      "code": "forbidden_continuous_pickup_drop_off",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ContinuousPickupDropOffValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_drop_off_type": {
+      "code": "forbidden_drop_off_type",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_geography_id": {
+      "code": "forbidden_geography_id",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesGeographyIdPresenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_pickup_type": {
+      "code": "forbidden_pickup_type",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_prior_day_booking_field_value": {
+      "code": "forbidden_prior_day_booking_field_value",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_prior_notice_start_day": {
+      "code": "forbidden_prior_notice_start_day",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_prior_notice_start_time": {
+      "code": "forbidden_prior_notice_start_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_real_time_booking_field_value": {
+      "code": "forbidden_real_time_booking_field_value",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_same_day_booking_field_value": {
+      "code": "forbidden_same_day_booking_field_value",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "forbidden_shape_dist_traveled": {
+      "code": "forbidden_shape_dist_traveled",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesShapeDistTraveledPresenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "foreign_key_violation": {
+      "code": "foreign_key_violation",
+      "constructed_by": [
+        "rule"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/ForeignKeyViolationNotice.java",
+      "layer": "rule",
+      "nested_in_validator": false,
+      "origin": "shared:rule",
+      "severity": "ERROR"
+    },
+    "future_calendar": {
+      "code": "future_calendar",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceWindowValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "future_feed": {
+      "code": "future_feed",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedValidTodayValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "geo_json_duplicated_element": {
+      "code": "geo_json_duplicated_element",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/GeoJsonDuplicatedElementNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "geo_json_unknown_element": {
+      "code": "geo_json_unknown_element",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/GeoJsonUnknownElementNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "INFO"
+    },
+    "inconsistent_agency_lang": {
+      "code": "inconsistent_agency_lang",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/AgencyConsistencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "inconsistent_agency_timezone": {
+      "code": "inconsistent_agency_timezone",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/AgencyConsistencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "inconsistent_route_type_for_block_id": {
+      "code": "inconsistent_route_type_for_block_id",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/InconsistentRouteTypeForBlockIdValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "inconsistent_route_type_for_in_seat_transfer": {
+      "code": "inconsistent_route_type_for_in_seat_transfer",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/InconsistentRouteTypeForInSeatTransferValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "invalid_character": {
+      "code": "invalid_character",
+      "constructed_by": [
+        "engine:parse"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidCharacterNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "invalid_color": {
+      "code": "invalid_color",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidColorNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_currency": {
+      "code": "invalid_currency",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidCurrencyNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_currency_amount": {
+      "code": "invalid_currency_amount",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidCurrencyAmountNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_date": {
+      "code": "invalid_date",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidDateNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_email": {
+      "code": "invalid_email",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidEmailNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "invalid_float": {
+      "code": "invalid_float",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidFloatNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_geometry": {
+      "code": "invalid_geometry",
+      "constructed_by": [
+        "rule"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidGeometryNotice.java",
+      "layer": "rule",
+      "nested_in_validator": false,
+      "origin": "shared:rule",
+      "severity": "ERROR"
+    },
+    "invalid_input_files_in_subfolder": {
+      "code": "invalid_input_files_in_subfolder",
+      "constructed_by": [
+        "engine:container"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidInputFilesInSubfolderNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "invalid_integer": {
+      "code": "invalid_integer",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidIntegerNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_language_code": {
+      "code": "invalid_language_code",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidLanguageCodeNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_phone_number": {
+      "code": "invalid_phone_number",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidPhoneNumberNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "invalid_pickup_drop_off_window": {
+      "code": "invalid_pickup_drop_off_window",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffWindowValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "invalid_prior_notice_duration_min": {
+      "code": "invalid_prior_notice_duration_min",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "invalid_row_length": {
+      "code": "invalid_row_length",
+      "constructed_by": [
+        "engine:parse"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidRowLengthNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "invalid_time": {
+      "code": "invalid_time",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidTimeNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_timezone": {
+      "code": "invalid_timezone",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidTimezoneNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "invalid_url": {
+      "code": "invalid_url",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/InvalidUrlNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "leading_or_trailing_whitespaces": {
+      "code": "leading_or_trailing_whitespaces",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/LeadingOrTrailingWhitespacesNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "WARNING"
+    },
+    "location_with_unexpected_stop_time": {
+      "code": "location_with_unexpected_stop_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationHasStopTimesValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "location_without_parent_station": {
+      "code": "location_without_parent_station",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationTypeSingleEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "malformed_json": {
+      "code": "malformed_json",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MalformedJsonNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "missing_bike_allowance": {
+      "code": "missing_bike_allowance",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BikesAllowanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "missing_calendar_and_calendar_date_files": {
+      "code": "missing_calendar_and_calendar_date_files",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MissingCalendarAndCalendarDateValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_feed_contact_email_and_url": {
+      "code": "missing_feed_contact_email_and_url",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedContactValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "missing_feed_info_date": {
+      "code": "missing_feed_info_date",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceDateValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "missing_level_id": {
+      "code": "missing_level_id",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MissingLevelIdValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_pickup_drop_off_booking_rule_id": {
+      "code": "missing_pickup_drop_off_booking_rule_id",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupBookingRuleIdValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "missing_pickup_or_drop_off_window": {
+      "code": "missing_pickup_or_drop_off_window",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PickupDropOffWindowValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_prior_day_booking_field_value": {
+      "code": "missing_prior_day_booking_field_value",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/MissingPriorDayBookingFieldValueNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "other",
+      "severity": "ERROR"
+    },
+    "missing_prior_notice_duration_min": {
+      "code": "missing_prior_notice_duration_min",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_prior_notice_last_day": {
+      "code": "missing_prior_notice_last_day",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_prior_notice_last_time": {
+      "code": "missing_prior_notice_last_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_prior_notice_start_time": {
+      "code": "missing_prior_notice_start_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_recommended_column": {
+      "code": "missing_recommended_column",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/MissingRecommendedColumnNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "other",
+      "severity": "WARNING"
+    },
+    "missing_recommended_field": {
+      "code": "missing_recommended_field",
+      "constructed_by": [
+        "engine:parse",
+        "rule"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRecommendedFieldNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine+rule",
+      "severity": "WARNING"
+    },
+    "missing_recommended_file": {
+      "code": "missing_recommended_file",
+      "constructed_by": [
+        "engine:table",
+        "rule"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRecommendedFileNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine+rule",
+      "severity": "WARNING"
+    },
+    "missing_required_agency_id": {
+      "code": "missing_required_agency_id",
+      "constructed_by": [
+        "rule"
+      ],
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredAgencyIdNotice.java",
+      "layer": "rule",
+      "nested_in_validator": false,
+      "origin": "shared:rule",
+      "severity": "ERROR"
+    },
+    "missing_required_column": {
+      "code": "missing_required_column",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredColumnNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "missing_required_element": {
+      "code": "missing_required_element",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredElementNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "missing_required_field": {
+      "code": "missing_required_field",
+      "constructed_by": [
+        "engine:parse",
+        "rule"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredFieldNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine+rule",
+      "severity": "ERROR"
+    },
+    "missing_required_file": {
+      "code": "missing_required_file",
+      "constructed_by": [
+        "engine:table",
+        "rule"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MissingRequiredFileNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine+rule",
+      "severity": "ERROR"
+    },
+    "missing_stop_name": {
+      "code": "missing_stop_name",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_stop_times_record": {
+      "code": "missing_stop_times_record",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesRecordValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "missing_timepoint_value": {
+      "code": "missing_timepoint_value",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimepointTimeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "missing_trip_edge": {
+      "code": "missing_trip_edge",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/MissingTripEdgeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "mixed_case_recommended_field": {
+      "code": "mixed_case_recommended_field",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MixedCaseRecommendedFieldNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "WARNING"
+    },
+    "more_than_one_entity": {
+      "code": "more_than_one_entity",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/MoreThanOneEntityNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "WARNING"
+    },
+    "new_line_in_value": {
+      "code": "new_line_in_value",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/NewLineInValueNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "non_ascii_or_non_printable_char": {
+      "code": "non_ascii_or_non_printable_char",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/NonAsciiOrNonPrintableCharNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "WARNING"
+    },
+    "number_out_of_range": {
+      "code": "number_out_of_range",
+      "constructed_by": [
+        "engine:parse"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/NumberOutOfRangeNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "overlapping_frequency": {
+      "code": "overlapping_frequency",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/OverlappingFrequencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "overlapping_zone_and_pickup_drop_off_window": {
+      "code": "overlapping_zone_and_pickup_drop_off_window",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/OverlappingPickupDropOffZoneValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "pathway_dangling_generic_node": {
+      "code": "pathway_dangling_generic_node",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayDanglingGenericNodeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "pathway_loop": {
+      "code": "pathway_loop",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayLoopValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "pathway_to_platform_with_boarding_areas": {
+      "code": "pathway_to_platform_with_boarding_areas",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayEndpointTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "pathway_to_stop_with_access_outside_of_station_pathways": {
+      "code": "pathway_to_stop_with_access_outside_of_station_pathways",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayStopAccessValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "pathway_to_wrong_location_type": {
+      "code": "pathway_to_wrong_location_type",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayEndpointTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "pathway_unreachable_location": {
+      "code": "pathway_unreachable_location",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/PathwayReachableLocationValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "platform_without_parent_station": {
+      "code": "platform_without_parent_station",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationTypeSingleEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "point_near_origin": {
+      "code": "point_near_origin",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/PointNearOriginNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "point_near_pole": {
+      "code": "point_near_pole",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/PointNearPoleNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "prior_notice_last_day_after_start_day": {
+      "code": "prior_notice_last_day_after_start_day",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/BookingRulesEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "route_both_short_and_long_name_missing": {
+      "code": "route_both_short_and_long_name_missing",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "route_color_contrast": {
+      "code": "route_color_contrast",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteColorContrastValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "route_long_name_contains_short_name": {
+      "code": "route_long_name_contains_short_name",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "route_networks_specified_in_more_than_one_file": {
+      "code": "route_networks_specified_in_more_than_one_file",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/NetworkIdConsistencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "route_short_name_too_long": {
+      "code": "route_short_name_too_long",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "same_name_and_description_for_route": {
+      "code": "same_name_and_description_for_route",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/RouteNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "same_name_and_description_for_stop": {
+      "code": "same_name_and_description_for_stop",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopNameValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "same_route_and_agency_url": {
+      "code": "same_route_and_agency_url",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UrlConsistencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "same_stop_and_agency_url": {
+      "code": "same_stop_and_agency_url",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UrlConsistencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "same_stop_and_route_url": {
+      "code": "same_stop_and_route_url",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/UrlConsistencyValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "service_extends_far_in_the_future": {
+      "code": "service_extends_far_in_the_future",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ServiceSpreadValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "service_has_no_active_day_of_the_week": {
+      "code": "service_has_no_active_day_of_the_week",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ServiceHasNoActiveDayOfTheWeekValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "service_window_outside_feed_period": {
+      "code": "service_window_outside_feed_period",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/FeedServiceWindowValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "single_shape_point": {
+      "code": "single_shape_point",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/SingleShapePointValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "start_and_end_range_equal": {
+      "code": "start_and_end_range_equal",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/StartAndEndRangeEqualNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "start_and_end_range_out_of_order": {
+      "code": "start_and_end_range_out_of_order",
+      "constructed_by": [
+        "codegen-or-reflection"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/StartAndEndRangeOutOfOrderNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:codegen-or-reflection",
+      "severity": "ERROR"
+    },
+    "station_with_parent_station": {
+      "code": "station_with_parent_station",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationTypeSingleEntityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_access_specified_for_incorrect_location": {
+      "code": "stop_access_specified_for_incorrect_location",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopAccessValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_access_specified_for_stop_with_no_parent_station": {
+      "code": "stop_access_specified_for_stop_with_no_parent_station",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopAccessValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_has_too_many_matches_for_shape": {
+      "code": "stop_has_too_many_matches_for_shape",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "stop_time_timepoint_without_times": {
+      "code": "stop_time_timepoint_without_times",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimepointTimeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_time_with_arrival_before_previous_departure_time": {
+      "code": "stop_time_with_arrival_before_previous_departure_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeArrivalAndDepartureTimeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_time_with_only_arrival_or_departure_time": {
+      "code": "stop_time_with_only_arrival_or_departure_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimeArrivalAndDepartureTimeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_too_far_from_shape": {
+      "code": "stop_too_far_from_shape",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "stop_too_far_from_shape_using_user_distance": {
+      "code": "stop_too_far_from_shape_using_user_distance",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "stop_without_location": {
+      "code": "stop_without_location",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopRequiredLocationValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "stop_without_stop_time": {
+      "code": "stop_without_stop_time",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/LocationHasStopTimesValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "stop_without_zone_id": {
+      "code": "stop_without_zone_id",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopZoneIdValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "stops_match_shape_out_of_order": {
+      "code": "stops_match_shape_out_of_order",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeToStopMatchingValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "timeframe_only_start_or_end_time_specified": {
+      "code": "timeframe_only_start_or_end_time_specified",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimeframeStartAndEndTimeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "timeframe_overlap": {
+      "code": "timeframe_overlap",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimeframeOverlapValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "timeframe_start_or_end_time_greater_than_twenty_four_hours": {
+      "code": "timeframe_start_or_end_time_greater_than_twenty_four_hours",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TimeframeStartAndEndTimeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "too_many_rows": {
+      "code": "too_many_rows",
+      "constructed_by": [
+        "engine:parse"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/TooManyRowsNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "ERROR"
+    },
+    "transfer_distance_above_2_km": {
+      "code": "transfer_distance_above_2_km",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransferDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "transfer_distance_too_large": {
+      "code": "transfer_distance_too_large",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransferDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "transfer_with_invalid_stop_location_type": {
+      "code": "transfer_with_invalid_stop_location_type",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersStopTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "transfer_with_invalid_trip_and_route": {
+      "code": "transfer_with_invalid_trip_and_route",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersTripReferenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "transfer_with_invalid_trip_and_stop": {
+      "code": "transfer_with_invalid_trip_and_stop",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersTripReferenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "transfer_with_suspicious_mid_trip_in_seat": {
+      "code": "transfer_with_suspicious_mid_trip_in_seat",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TransfersInSeatTransferTypeValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "translation_foreign_key_violation": {
+      "code": "translation_foreign_key_violation",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TranslationFieldAndReferenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "translation_unexpected_value": {
+      "code": "translation_unexpected_value",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TranslationFieldAndReferenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "translation_unknown_table_name": {
+      "code": "translation_unknown_table_name",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TranslationFieldAndReferenceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "trip_coverage_not_active_for_next7_days": {
+      "code": "trip_coverage_not_active_for_next7_days",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/DateTripsValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "trip_distance_exceeds_shape_distance": {
+      "code": "trip_distance_exceeds_shape_distance",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripAndShapeDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    },
+    "trip_distance_exceeds_shape_distance_below_threshold": {
+      "code": "trip_distance_exceeds_shape_distance_below_threshold",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripAndShapeDistanceValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "trip_headsign_matches_intermediate_stop": {
+      "code": "trip_headsign_matches_intermediate_stop",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripHeadsignValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "trip_with_shape_dist_traveled_but_no_shape_distances": {
+      "code": "trip_with_shape_dist_traveled_but_no_shape_distances",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripWithShapeDistTraveledButNoShapeDistancesValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "unexpected_enum_value": {
+      "code": "unexpected_enum_value",
+      "constructed_by": [
+        "engine:parse"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnexpectedEnumValueNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "WARNING"
+    },
+    "unknown_column": {
+      "code": "unknown_column",
+      "constructed_by": [
+        "engine:field"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnknownColumnNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "INFO"
+    },
+    "unknown_file": {
+      "code": "unknown_file",
+      "constructed_by": [
+        "engine:table"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnknownFileNotice.java",
+      "layer": "engine",
+      "nested_in_validator": false,
+      "origin": "shared:engine",
+      "severity": "INFO"
+    },
+    "unsorted_stop_times": {
+      "code": "unsorted_stop_times",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/StopTimesTripBlockOrderValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "unsupported_feature_type": {
+      "code": "unsupported_feature_type",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnsupportedFeatureTypeNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "unsupported_geo_json_type": {
+      "code": "unsupported_geo_json_type",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnsupportedGeoJsonTypeNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "unsupported_geometry_type": {
+      "code": "unsupported_geometry_type",
+      "constructed_by": [
+        "other"
+      ],
+      "defined_in": "core/src/main/java/org/mobilitydata/gtfsvalidator/notice/UnsupportedGeometryTypeNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "shared:other",
+      "severity": "ERROR"
+    },
+    "unusable_trip": {
+      "code": "unusable_trip",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripUsabilityValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "unused_parent_station": {
+      "code": "unused_parent_station",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/deprecated/UnusedParentStationNotice.java",
+      "layer": "geojson-or-standalone",
+      "nested_in_validator": false,
+      "origin": "other",
+      "severity": "INFO"
+    },
+    "unused_shape": {
+      "code": "unused_shape",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ShapeUsageValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "unused_station": {
+      "code": "unused_station",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ParentStationValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "INFO"
+    },
+    "unused_trip": {
+      "code": "unused_trip",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/TripUsageValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "WARNING"
+    },
+    "wrong_parent_location_type": {
+      "code": "wrong_parent_location_type",
+      "defined_in": "main/src/main/java/org/mobilitydata/gtfsvalidator/validator/ParentStationValidator.java",
+      "layer": "rule",
+      "nested_in_validator": true,
+      "origin": "rule",
+      "severity": "ERROR"
+    }
+  }
+}

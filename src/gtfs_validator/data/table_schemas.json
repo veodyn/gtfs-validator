@@ -1,0 +1,2004 @@
+{
+  "_meta": {
+    "upstream": "https://github.com/MobilityData/gtfs-validator.git",
+    "tag": "v8.0.1",
+    "commit": "d74d7177f9f7c6bc7adc69508bb939362f2cf770"
+  },
+  "tables": {
+    "agency.txt": {
+      "presence": "REQUIRED",
+      "primary_key": [
+        "agency_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "agency_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "agency_name",
+          "type": "TEXT",
+          "presence": "REQUIRED",
+          "mixed_case": true
+        },
+        {
+          "name": "agency_url",
+          "type": "URL",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "agency_timezone",
+          "type": "TIMEZONE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "agency_lang",
+          "type": "LANGUAGE_CODE",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "agency_phone",
+          "type": "PHONE_NUMBER",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "agency_fare_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "agency_email",
+          "type": "EMAIL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "cemv_support",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NO_INFORMATION",
+            "1": "SUPPORTED",
+            "2": "NOT_SUPPORTED"
+          },
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "areas.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "area_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "area_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "area_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        }
+      ],
+      "max_chars_per_column": -1
+    },
+    "attributions.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "attribution_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "attribution_id",
+          "type": "ID",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "agency_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "agency.txt",
+            "field": "agency_id",
+            "validator": "GtfsAttributionAgencyIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "route_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "routes.txt",
+            "field": "route_id",
+            "validator": "GtfsAttributionRouteIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "trip_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "trips.txt",
+            "field": "trip_id",
+            "validator": "GtfsAttributionTripIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "organization_name",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "is_producer",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_ASSIGNED",
+            "1": "ASSIGNED"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "is_operator",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_ASSIGNED",
+            "1": "ASSIGNED"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "is_authority",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_ASSIGNED",
+            "1": "ASSIGNED"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "attribution_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "attribution_email",
+          "type": "EMAIL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "attribution_phone",
+          "type": "PHONE_NUMBER",
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "booking_rules.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "booking_rule_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "booking_rule_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "booking_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "REALTIME",
+            "1": "SAMEDAY",
+            "2": "PRIORDAY"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "prior_notice_duration_min",
+          "type": "INTEGER",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "prior_notice_duration_max",
+          "type": "INTEGER",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "prior_notice_start_day",
+          "type": "INTEGER",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "prior_notice_start_time",
+          "type": "TIME",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "prior_notice_last_day",
+          "type": "INTEGER",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "prior_notice_last_time",
+          "type": "TIME",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "prior_notice_service_id",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "message",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "pickup_message",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "drop_off_message",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "phone_number",
+          "type": "PHONE_NUMBER",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "info_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "booking_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "calendar.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "service_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "service_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "monday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "tuesday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "wednesday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "thursday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "friday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "saturday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "sunday",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_AVAILABLE",
+            "1": "AVAILABLE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "start_date",
+          "type": "DATE",
+          "presence": "REQUIRED",
+          "end_range": {
+            "field": "end_date",
+            "allow_equal": true
+          }
+        },
+        {
+          "name": "end_date",
+          "type": "DATE",
+          "presence": "REQUIRED"
+        }
+      ]
+    },
+    "calendar_dates.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "service_id",
+        "date"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID",
+        "RECORD_SUB_ID"
+      ],
+      "fields": [
+        {
+          "name": "service_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "date",
+          "type": "DATE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "exception_type",
+          "type": "ENUM",
+          "enum_values": {
+            "1": "SERVICE_ADDED",
+            "2": "SERVICE_REMOVED"
+          },
+          "presence": "REQUIRED"
+        }
+      ]
+    },
+    "fare_attributes.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "fare_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "fare_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "price",
+          "type": "DECIMAL",
+          "presence": "REQUIRED",
+          "bounds": "NON_NEGATIVE"
+        },
+        {
+          "name": "currency_type",
+          "type": "CURRENCY_CODE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "payment_method",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "ON_BOARD",
+            "1": "BEFORE_BOARDING"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "transfers",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NO_TRANSFER",
+            "1": "ONE_TRANSFER",
+            "2": "TWO_TRANSFERS"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "agency_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "agency.txt",
+            "field": "agency_id",
+            "validator": "GtfsFareAttributeAgencyIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "transfer_duration",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        }
+      ]
+    },
+    "fare_leg_join_rules.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [],
+      "primary_key_translation_types": [],
+      "fields": [
+        {
+          "name": "from_network_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "to_network_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "from_stop_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsFareLegJoinRuleFromStopIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_stop_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsFareLegJoinRuleToStopIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "fare_leg_rules.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "network_id",
+        "from_area_id",
+        "to_area_id",
+        "from_timeframe_group_id",
+        "to_timeframe_group_id",
+        "fare_product_id"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "leg_group_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "indexed": true
+        },
+        {
+          "name": "network_id",
+          "type": "ID",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "from_area_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "areas.txt",
+            "field": "area_id",
+            "validator": "GtfsFareLegRuleFromAreaIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_area_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "areas.txt",
+            "field": "area_id",
+            "validator": "GtfsFareLegRuleToAreaIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "from_timeframe_group_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "timeframes.txt",
+            "field": "timeframe_group_id",
+            "validator": "GtfsFareLegRuleFromTimeframeGroupIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_timeframe_group_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "timeframes.txt",
+            "field": "timeframe_group_id",
+            "validator": "GtfsFareLegRuleToTimeframeGroupIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "fare_product_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "references": {
+            "table": "fare_products.txt",
+            "field": "fare_product_id",
+            "validator": "GtfsFareLegRuleFareProductIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "rule_priority",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        }
+      ]
+    },
+    "fare_media.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "fare_media_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "fare_media_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "fare_media_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "fare_media_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NONE",
+            "1": "PAPER_TICKET",
+            "2": "TRANSIT_CARD",
+            "3": "CONTACTLESS_EMV",
+            "4": "MOBILE_APP"
+          },
+          "presence": "REQUIRED"
+        }
+      ]
+    },
+    "fare_products.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "fare_product_id",
+        "fare_media_id",
+        "rider_category_id"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "fare_product_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "fare_product_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "amount",
+          "type": "CURRENCY_AMOUNT",
+          "presence": "REQUIRED",
+          "bounds": "NON_NEGATIVE",
+          "currency_field": "currency"
+        },
+        {
+          "name": "currency",
+          "type": "CURRENCY_CODE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "fare_media_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "fare_media.txt",
+            "field": "fare_media_id",
+            "validator": "GtfsFareProductFareMediaIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "rider_category_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "rider_categories.txt",
+            "field": "rider_category_id",
+            "validator": "GtfsFareProductRiderCategoryIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "fare_rules.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "fare_id",
+        "route_id",
+        "origin_id",
+        "destination_id",
+        "contains_id"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "fare_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "fare_attributes.txt",
+            "field": "fare_id",
+            "validator": "GtfsFareRuleFareIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "route_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "indexed": true,
+          "references": {
+            "table": "routes.txt",
+            "field": "route_id",
+            "validator": "GtfsFareRuleRouteIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "origin_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "stops.txt",
+            "field": "zone_id",
+            "validator": "GtfsFareRuleOriginIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "destination_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "stops.txt",
+            "field": "zone_id",
+            "validator": "GtfsFareRuleDestinationIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "contains_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "stops.txt",
+            "field": "zone_id",
+            "validator": "GtfsFareRuleContainsIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "fare_transfer_rules.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "from_leg_group_id",
+        "to_leg_group_id",
+        "duration_limit",
+        "transfer_count",
+        "fare_product_id"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "from_leg_group_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "fare_leg_rules.txt",
+            "field": "leg_group_id",
+            "validator": "GtfsFareTransferRuleFromLegGroupIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_leg_group_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "fare_leg_rules.txt",
+            "field": "leg_group_id",
+            "validator": "GtfsFareTransferRuleToLegGroupIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "duration_limit",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "POSITIVE"
+        },
+        {
+          "name": "duration_limit_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "DEPARTURE_TO_ARRIVAL",
+            "1": "DEPARTURE_TO_DEPARTURE",
+            "2": "ARRIVAL_TO_DEPARTURE",
+            "3": "ARRIVAL_TO_ARRIVAL"
+          },
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "fare_transfer_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "A_PLUS_AB",
+            "1": "A_PLUS_AB_PLUS_B",
+            "2": "AB"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "transfer_count",
+          "type": "INTEGER",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "fare_product_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "fare_products.txt",
+            "field": "fare_product_id",
+            "validator": "GtfsFareTransferRuleFareProductIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "feed_info.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [],
+      "primary_key_translation_types": [],
+      "fields": [
+        {
+          "name": "feed_publisher_name",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "feed_publisher_url",
+          "type": "URL",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "feed_lang",
+          "type": "LANGUAGE_CODE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "default_lang",
+          "type": "LANGUAGE_CODE",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "feed_start_date",
+          "type": "DATE",
+          "presence": "RECOMMENDED",
+          "end_range": {
+            "field": "feed_end_date",
+            "allow_equal": true
+          }
+        },
+        {
+          "name": "feed_end_date",
+          "type": "DATE",
+          "presence": "RECOMMENDED"
+        },
+        {
+          "name": "feed_version",
+          "type": "TEXT",
+          "presence": "RECOMMENDED"
+        },
+        {
+          "name": "feed_contact_email",
+          "type": "EMAIL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "feed_contact_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        }
+      ],
+      "single_row": true
+    },
+    "frequencies.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "trip_id",
+        "start_time"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID",
+        "RECORD_SUB_ID"
+      ],
+      "fields": [
+        {
+          "name": "trip_id",
+          "type": "TEXT",
+          "presence": "REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "trips.txt",
+            "field": "trip_id",
+            "validator": "GtfsFrequencyTripIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "start_time",
+          "type": "TIME",
+          "presence": "REQUIRED",
+          "end_range": {
+            "field": "end_time",
+            "allow_equal": false
+          }
+        },
+        {
+          "name": "end_time",
+          "type": "TIME",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "headway_secs",
+          "type": "INTEGER",
+          "presence": "REQUIRED",
+          "bounds": "POSITIVE"
+        },
+        {
+          "name": "exact_times",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "FREQUENCY_BASED",
+            "1": "SCHEDULE_BASED"
+          },
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "levels.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "level_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "level_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "level_index",
+          "type": "FLOAT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "level_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        }
+      ]
+    },
+    "location_group_stops.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [],
+      "primary_key_translation_types": [],
+      "fields": [
+        {
+          "name": "location_group_id",
+          "type": "TEXT",
+          "presence": "REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "stop_id",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        }
+      ]
+    },
+    "location_groups.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "location_group_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "location_group_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "location_group_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        }
+      ]
+    },
+    "networks.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "network_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "network_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "network_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        }
+      ]
+    },
+    "pathways.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "pathway_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "pathway_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "from_stop_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsPathwayFromStopIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_stop_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsPathwayToStopIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "pathway_mode",
+          "type": "ENUM",
+          "enum_values": {
+            "1": "WALKWAY",
+            "2": "STAIRS",
+            "3": "MOVING_SIDEWALK",
+            "4": "ESCALATOR",
+            "5": "ELEVATOR",
+            "6": "FARE_GATE",
+            "7": "EXIT_GATE"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "is_bidirectional",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "UNIDIRECTIONAL",
+            "1": "BIDIRECTIONAL"
+          },
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "length",
+          "type": "FLOAT",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        },
+        {
+          "name": "traversal_time",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "POSITIVE"
+        },
+        {
+          "name": "stair_count",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "NON_ZERO"
+        },
+        {
+          "name": "max_slope",
+          "type": "FLOAT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "min_width",
+          "type": "FLOAT",
+          "presence": "OPTIONAL",
+          "bounds": "POSITIVE"
+        },
+        {
+          "name": "signposted_as",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "reversed_signposted_as",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        }
+      ]
+    },
+    "rider_categories.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "rider_category_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "rider_category_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "rider_category_name",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "is_default_fare_category",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NOT_DEFAULT",
+            "1": "IS_DEFAULT"
+          },
+          "presence": "OPTIONAL",
+          "required_column": true,
+          "default": "0"
+        },
+        {
+          "name": "eligibility_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "route_networks.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "route_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "route_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "references": {
+            "table": "routes.txt",
+            "field": "route_id",
+            "validator": "GtfsRouteNetworkRouteIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "network_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "references": {
+            "table": "networks.txt",
+            "field": "network_id",
+            "validator": "GtfsRouteNetworkNetworkIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "routes.txt": {
+      "presence": "REQUIRED",
+      "primary_key": [
+        "route_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "route_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "agency_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "agency.txt",
+            "field": "agency_id",
+            "validator": "GtfsRouteAgencyIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "route_short_name",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "mixed_case": true
+        },
+        {
+          "name": "route_long_name",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "mixed_case": true
+        },
+        {
+          "name": "route_desc",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "route_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "LIGHT_RAIL",
+            "1": "SUBWAY",
+            "2": "RAIL",
+            "3": "BUS",
+            "4": "FERRY",
+            "5": "CABLE_TRAM",
+            "6": "AERIAL_LIFT",
+            "7": "FUNICULAR",
+            "11": "TROLLEYBUS",
+            "12": "MONORAIL"
+          },
+          "presence": "REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "route_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "route_color",
+          "type": "COLOR",
+          "presence": "OPTIONAL",
+          "default": "FFFFFF"
+        },
+        {
+          "name": "route_text_color",
+          "type": "COLOR",
+          "presence": "OPTIONAL",
+          "default": "000000"
+        },
+        {
+          "name": "route_sort_order",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        },
+        {
+          "name": "continuous_pickup",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "ALLOWED",
+            "1": "NOT_AVAILABLE",
+            "2": "MUST_PHONE",
+            "3": "ON_REQUEST_TO_DRIVER"
+          },
+          "presence": "OPTIONAL",
+          "default": "1"
+        },
+        {
+          "name": "continuous_drop_off",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "ALLOWED",
+            "1": "NOT_AVAILABLE",
+            "2": "MUST_PHONE",
+            "3": "ON_REQUEST_TO_DRIVER"
+          },
+          "presence": "OPTIONAL",
+          "default": "1"
+        },
+        {
+          "name": "network_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "cemv_support",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NO_INFORMATION",
+            "1": "SUPPORTED",
+            "2": "NOT_SUPPORTED"
+          },
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "shapes.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "shape_id",
+        "shape_pt_sequence"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID",
+        "RECORD_SUB_ID"
+      ],
+      "fields": [
+        {
+          "name": "shape_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "shape_pt_lat",
+          "type": "LATITUDE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "shape_pt_lon",
+          "type": "LONGITUDE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "shape_pt_sequence",
+          "type": "INTEGER",
+          "presence": "REQUIRED",
+          "bounds": "NON_NEGATIVE",
+          "sequence": true
+        },
+        {
+          "name": "shape_dist_traveled",
+          "type": "FLOAT",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        }
+      ]
+    },
+    "stop_areas.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "area_id",
+        "stop_id"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "area_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "references": {
+            "table": "areas.txt",
+            "field": "area_id",
+            "validator": "GtfsStopAreaAreaIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "stop_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsStopAreaStopIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "stop_times.txt": {
+      "presence": "REQUIRED",
+      "primary_key": [
+        "trip_id",
+        "stop_sequence"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID",
+        "RECORD_SUB_ID"
+      ],
+      "fields": [
+        {
+          "name": "trip_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "trips.txt",
+            "field": "trip_id",
+            "validator": "GtfsStopTimeTripIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "arrival_time",
+          "type": "TIME",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "end_range": {
+            "field": "departure_time",
+            "allow_equal": true
+          }
+        },
+        {
+          "name": "departure_time",
+          "type": "TIME",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "stop_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsStopTimeStopIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "location_group_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "location_groups.txt",
+            "field": "location_group_id",
+            "validator": "GtfsStopTimeLocationGroupIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "location_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "stop_sequence",
+          "type": "INTEGER",
+          "presence": "REQUIRED",
+          "bounds": "NON_NEGATIVE",
+          "sequence": true
+        },
+        {
+          "name": "stop_headsign",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "start_pickup_drop_off_window",
+          "type": "TIME",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "end_pickup_drop_off_window",
+          "type": "TIME",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "pickup_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "REGULAR",
+            "1": "NOT_AVAILABLE",
+            "2": "MUST_PHONE",
+            "3": "ON_REQUEST_TO_DRIVER"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "drop_off_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "REGULAR",
+            "1": "NOT_AVAILABLE",
+            "2": "MUST_PHONE",
+            "3": "ON_REQUEST_TO_DRIVER"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "continuous_pickup",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "ALLOWED",
+            "1": "NOT_AVAILABLE",
+            "2": "MUST_PHONE",
+            "3": "ON_REQUEST_TO_DRIVER"
+          },
+          "presence": "OPTIONAL",
+          "default": "1"
+        },
+        {
+          "name": "continuous_drop_off",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "ALLOWED",
+            "1": "NOT_AVAILABLE",
+            "2": "MUST_PHONE",
+            "3": "ON_REQUEST_TO_DRIVER"
+          },
+          "presence": "OPTIONAL",
+          "default": "1"
+        },
+        {
+          "name": "shape_dist_traveled",
+          "type": "FLOAT",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        },
+        {
+          "name": "timepoint",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "APPROXIMATE",
+            "1": "EXACT"
+          },
+          "presence": "OPTIONAL",
+          "default": "1"
+        },
+        {
+          "name": "pickup_booking_rule_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "booking_rules.txt",
+            "field": "booking_rule_id",
+            "validator": "GtfsStopTimePickupBookingRuleIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "drop_off_booking_rule_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "booking_rules.txt",
+            "field": "booking_rule_id",
+            "validator": "GtfsStopTimeDropOffBookingRuleIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "stops.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "stop_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "stop_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "stop_code",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "stop_name",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "mixed_case": true
+        },
+        {
+          "name": "tts_stop_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "stop_desc",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "stop_lat",
+          "type": "LATITUDE",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "stop_lon",
+          "type": "LONGITUDE",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "zone_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "stop_url",
+          "type": "URL",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "location_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "STOP",
+            "1": "STATION",
+            "2": "ENTRANCE",
+            "3": "GENERIC_NODE",
+            "4": "BOARDING_AREA"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "parent_station",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsStopParentStationForeignKeyValidator"
+          }
+        },
+        {
+          "name": "stop_timezone",
+          "type": "TIMEZONE",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "wheelchair_boarding",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "UNKNOWN",
+            "1": "ACCESSIBLE",
+            "2": "INACCESSIBLE"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "level_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "levels.txt",
+            "field": "level_id",
+            "validator": "GtfsStopLevelIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "platform_code",
+          "type": "TEXT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "stop_access",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "ACCESSIBLE_VIA_PATHWAYS",
+            "1": "NOT_ACCESSIBLE_VIA_PATHWAYS"
+          },
+          "presence": "OPTIONAL"
+        }
+      ]
+    },
+    "timeframes.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "timeframe_group_id",
+        "start_time",
+        "end_time",
+        "service_id"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "timeframe_group_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "indexed": true
+        },
+        {
+          "name": "start_time",
+          "type": "TIME",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "end_range": {
+            "field": "end_time",
+            "allow_equal": false
+          }
+        },
+        {
+          "name": "end_time",
+          "type": "TIME",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "service_id",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        }
+      ]
+    },
+    "transfers.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "from_stop_id",
+        "to_stop_id",
+        "from_trip_id",
+        "to_trip_id",
+        "from_route_id",
+        "to_route_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID",
+        "RECORD_SUB_ID",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "from_stop_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsTransferFromStopIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_stop_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "stops.txt",
+            "field": "stop_id",
+            "validator": "GtfsTransferToStopIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "transfer_type",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "RECOMMENDED",
+            "1": "TIMED",
+            "2": "MINIMUM_TIME",
+            "3": "IMPOSSIBLE",
+            "4": "IN_SEAT_TRANSFER_ALLOWED",
+            "5": "IN_SEAT_TRANSFER_NOT_ALLOWED"
+          },
+          "presence": "OPTIONAL",
+          "required_column": true,
+          "indexed": true
+        },
+        {
+          "name": "min_transfer_time",
+          "type": "INTEGER",
+          "presence": "OPTIONAL",
+          "bounds": "NON_NEGATIVE"
+        },
+        {
+          "name": "from_trip_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "trips.txt",
+            "field": "trip_id",
+            "validator": "GtfsTransferFromTripIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_trip_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "references": {
+            "table": "trips.txt",
+            "field": "trip_id",
+            "validator": "GtfsTransferToTripIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "from_route_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "routes.txt",
+            "field": "route_id",
+            "validator": "GtfsTransferFromRouteIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "to_route_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "references": {
+            "table": "routes.txt",
+            "field": "route_id",
+            "validator": "GtfsTransferToRouteIdForeignKeyValidator"
+          }
+        }
+      ]
+    },
+    "translations.txt": {
+      "presence": "OPTIONAL",
+      "primary_key": [
+        "table_name",
+        "field_name",
+        "language",
+        "record_id",
+        "record_sub_id",
+        "field_value"
+      ],
+      "primary_key_translation_types": [
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED",
+        "UNSUPPORTED"
+      ],
+      "fields": [
+        {
+          "name": "table_name",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "field_name",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "language",
+          "type": "LANGUAGE_CODE",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "translation",
+          "type": "TEXT",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "record_id",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "record_sub_id",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED"
+        },
+        {
+          "name": "field_value",
+          "type": "TEXT",
+          "presence": "CONDITIONALLY_REQUIRED"
+        }
+      ]
+    },
+    "trips.txt": {
+      "presence": "REQUIRED",
+      "primary_key": [
+        "trip_id"
+      ],
+      "primary_key_translation_types": [
+        "RECORD_ID"
+      ],
+      "fields": [
+        {
+          "name": "trip_id",
+          "type": "ID",
+          "presence": "REQUIRED"
+        },
+        {
+          "name": "route_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "routes.txt",
+            "field": "route_id",
+            "validator": "GtfsTripRouteIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "service_id",
+          "type": "ID",
+          "presence": "REQUIRED",
+          "indexed": true
+        },
+        {
+          "name": "trip_headsign",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "trip_short_name",
+          "type": "TEXT",
+          "presence": "OPTIONAL",
+          "mixed_case": true
+        },
+        {
+          "name": "direction_id",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "OUTBOUND",
+            "1": "INBOUND"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "block_id",
+          "type": "ID",
+          "presence": "OPTIONAL",
+          "indexed": true
+        },
+        {
+          "name": "shape_id",
+          "type": "ID",
+          "presence": "CONDITIONALLY_REQUIRED",
+          "indexed": true,
+          "references": {
+            "table": "shapes.txt",
+            "field": "shape_id",
+            "validator": "GtfsTripShapeIdForeignKeyValidator"
+          }
+        },
+        {
+          "name": "wheelchair_accessible",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "UNKNOWN",
+            "1": "ACCESSIBLE",
+            "2": "INACCESSIBLE"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "bikes_allowed",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "UNKNOWN",
+            "1": "ALLOWED",
+            "2": "NOT_ALLOWED"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "cars_allowed",
+          "type": "ENUM",
+          "enum_values": {
+            "0": "NO_INFORMATION",
+            "1": "ALLOWED",
+            "2": "NOT_ALLOWED"
+          },
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "safe_duration_factor",
+          "type": "FLOAT",
+          "presence": "OPTIONAL"
+        },
+        {
+          "name": "safe_duration_offset",
+          "type": "FLOAT",
+          "presence": "OPTIONAL"
+        }
+      ]
+    }
+  }
+}

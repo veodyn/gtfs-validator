@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gtfs-validator"
+version = "0.1.0.dev0"
+description = "Pure-Python validator for the canonical GTFS rule set. No JVM, no dependencies."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+license = "MIT"
+keywords = ["gtfs", "transit", "validator", "gtfs-schedule", "mobilitydata"]
+
+license-files = ["LICENSE", "NOTICE"]
+
+# The README opens by stating that this is an unaffiliated reimplementation that
+# shares upstream's name, and `readme` is what puts that paragraph on the PyPI
+# project page. A blank page next to a name this close to someone else's is the
+# thing worth avoiding.
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    # Only the interpreters the suite has actually been run on. 3.12 is in range
+    # and almost certainly fine; it is absent because nobody has run it, and a
+    # classifier is a claim.
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.scripts]
+gtfs-validator = "gtfs_validator.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "build>=1", "twine>=5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gtfs_validator = ["data/*.json", "data/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
