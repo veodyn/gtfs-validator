@@ -15,6 +15,8 @@ gtfs-validator -i feed.zip -o out/
 You get the same three files the Java validator writes, with the same contents:
 `report.json`, `system_errors.json` and `report.html`.
 
+GTFS Schedule only. Realtime is out of scope here exactly as it is upstream.
+
 > Status: pre-release. The rule set is complete and the CLI matches the jar, both
 > held in place by differential tests against the real thing. Test coverage of
 > the CLI and the report summary is still thin, and no real-world feed has been
@@ -27,7 +29,8 @@ container and CI runner to run it, or you fall back on `transitfeed`, which last
 saw a release in 2018.
 
 This is the same rule set, reimplemented, so that validating a feed costs a
-`pip install` instead of a base image.
+`pip install` instead of a base image. It only validates. For working with the
+feed data itself, [`gtfs-kit`][gtfs-kit] is good and does not overlap.
 
 ## How close is it?
 
@@ -102,16 +105,6 @@ memory, which keeps a several-hundred-megabyte feed off the heap.
 `number_out_of_range` here and nothing from upstream, because Java's
 `Double.compareTo` orders NaN above positive infinity so neither bound can fire.
 That one is ours to fix.
-
-## What it will not do
-
-GTFS-Realtime is out of scope here, as it is upstream. Analysis is out of scope
-too: this checks feeds against a rule set, and for working with the feed data
-itself, [`gtfs-kit`][gtfs-kit] is good and does not overlap.
-
-It also will not second-guess upstream. Where the Java validator's behaviour
-looks wrong, this reproduces it and records the disagreement in writing, because
-matching a rule set someone else owns is the job.
 
 ## Working on it
 
