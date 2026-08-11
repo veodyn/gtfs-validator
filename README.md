@@ -20,9 +20,6 @@ gtfs-validator -i feed.zip -o out/
 You get the same three files the Java validator writes, with the same contents:
 `report.json`, `system_errors.json` and `report.html`.
 
-GTFS Schedule only. Realtime is out of scope here exactly as it is upstream.
-
-
 ## Why this exists
 
 Upstream is Java. If your pipeline is Python, you either ship a JVM in every
