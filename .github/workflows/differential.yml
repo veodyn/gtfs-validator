@@ -1,0 +1,89 @@
+# Parity against the pinned jar: the check the unit suite structurally cannot make.
+#
+# ci.yml proves the code behaves as its tests say. This proves it behaves as
+# MobilityData's v8.0.1 does, which is the entire product. The four harnesses below
+# compare different things and each has caught defects the others could not:
+# notices per feed, the whole report including the summary and HTML, java.util.HashMap
+# iteration order, and Guava's farmHashFingerprint64.
+#
+# Separate from ci.yml because it needs a JDK and a 38 MB download, so it runs on a
+# schedule and on demand rather than on every push. It is not a formality: the local
+# copies of these fixtures live in /tmp and macOS pruned both of them between
+# 2026-07-29 and 2026-08-11, so on a developer machine these checks are frequently
+# unrunnable without a re-fetch. Here they are reproducible.
+name: differential
+
+on:
+  schedule:
+    # Thursday, deliberately not Monday: upstream-watch runs then, and two failures
+    # arriving together are harder to attribute than two arriving apart.
+    - cron: "0 6 * * 4"
+  workflow_dispatch:
+  pull_request:
+    # Anything that can move report output. A rule, the report writers, the ported
+    # Java semantics, or the generated data they all read.
+    paths:
+      - "src/gtfs_validator/**"
+      - "tools/**"
+      - ".github/workflows/differential.yml"
+
+permissions:
+  contents: read
+
+env:
+  UPSTREAM_TAG: v8.0.1
+  JAR: /tmp/gtfs-validator.jar
+  # The two ported-semantics harnesses read this rather than taking the path as an
+  # argument. It is also their default, and relying on a default that happens to
+  # coincide is how a harness silently stops testing what you think it does.
+  GTFS_JAR: /tmp/gtfs-validator.jar
+  # Both sides are told the same "today" or a feed whose calendar expires next week
+  # diverges for a reason that is not a defect.
+  DATE: "2026-06-01"
+
+jobs:
+  differential:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-java@v4
+        with:
+          # JDK 17 specifically. Divergence 14 is upstream printing a number the way
+          # a pre-19 JDK does, so a newer JDK would silently close a difference this
+          # project has deliberately recorded as open.
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Fetch the pinned jar
+        run: |
+          curl -sSL --fail -o "$JAR" \
+            "https://github.com/MobilityData/gtfs-validator/releases/download/${UPSTREAM_TAG}/gtfs-validator-8.0.1-cli.jar"
+          test -s "$JAR"
+
+      - name: Clone upstream at the pin
+        # Two of the harnesses read the Java sources rather than the jar.
+        run: |
+          git clone --depth 1 --branch "$UPSTREAM_TAG" \
+            https://github.com/MobilityData/gtfs-validator.git /tmp/gtfs-upstream
+          test -d /tmp/gtfs-upstream/main/src
+
+      - name: Build the fixture feed
+        run: python tools/make_fixture_feed.py tests/fixtures/minimal.zip
+
+      - name: Notices, per feed
+        run: DATE="$DATE" PYTHON=python tools/diff_against_upstream.sh tests/fixtures/minimal.zip "$JAR"
+
+      - name: The whole report, summary and HTML included
+        run: DATE="$DATE" PYTHON=python tools/diff_full_output_against_upstream.sh tests/fixtures/minimal.zip "$JAR"
+
+      - name: HashMap iteration order against the JDK
+        run: python tools/diff_hashmap_against_jdk.py
+
+      - name: farmHashFingerprint64 against Guava
+        run: python tools/diff_farmhash_against_guava.py

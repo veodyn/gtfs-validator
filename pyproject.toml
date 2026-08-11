@@ -36,7 +36,9 @@ classifiers = [
 gtfs-validator = "gtfs_validator.cli:main"
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6", "build>=1", "twine>=5"]
+# `coverage` rather than `pytest-cov` because the differential harnesses are shell
+# and script entry points, not pytest runs, and `coverage run` measures those too.
+dev = ["pytest>=8", "ruff>=0.6", "build>=1", "twine>=5", "coverage>=7"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -46,3 +48,19 @@ gtfs_validator = ["data/*.json", "data/*.html"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.coverage.run]
+# Configured here rather than passed on the command line so a local run and the CI
+# floor measure the same denominator. Without this, `coverage run -m pytest` counts
+# the test files themselves, which are near-100% by construction and would inflate
+# the total by enough to hide a real drop in src/.
+source = ["src/gtfs_validator"]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    # Neither runs under the suite, and counting them as missed lines makes the
+    # number a worse signal rather than a stricter one.
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]

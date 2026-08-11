@@ -1,0 +1,104 @@
+# The suite, the linter, and a coverage floor, on every interpreter the package
+# claims to support.
+#
+# The matrix is not decoration. `pyproject.toml` carries a classifier for 3.11,
+# 3.13 and 3.14, and a classifier is a claim: before this workflow existed, every
+# run had been on one machine's 3.14 and the other two were asserted. The package
+# is stdlib-only at runtime, which is exactly the property that makes an
+# interpreter difference cheap to miss and cheap to check.
+#
+# What this cannot see is parity. Codes, counts and every sample's context are
+# checked against the pinned jar by differential.yml, which needs a JDK and a
+# 38 MB download and so runs on its own schedule.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      # One interpreter failing is a fact about that interpreter, and the others
+      # still have to report it rather than being cancelled.
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13", "3.14"]
+    name: test (py${{ matrix.python-version }})
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Test
+        run: python -m pytest -q
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Ruff
+        run: ruff check src/ tests/ tools/
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Measure
+        run: |
+          python -m coverage run -m pytest -q
+          python -m coverage report
+      # The floor is set just under the measurement on the commit that added it
+      # (94%, branch coverage on), so it catches a slide rather than ratcheting on
+      # every commit. Raise it deliberately; do not lower it to make a branch pass.
+      - name: Floor
+        run: python -m coverage report --fail-under=93
+
+  build:
+    # The release artefacts, built on every push rather than only at release time.
+    # 0.1.0 was built by hand, and a build that only ever runs once runs for the
+    # first time on the day it matters.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Build both distributions
+        run: |
+          python -m build --outdir dist/
+          python -m build --outdir dist/ packaging/gtfs-lint-alias/
+      - name: Check the metadata PyPI will freeze
+        run: python -m twine check dist/*
+      - name: Install the wheel clean and validate a feed
+        # The one check that covers packaging rather than code: a wheel that
+        # imports is not a wheel whose data files shipped. This catches a missing
+        # report_template.html, which no unit test can see.
+        run: |
+          python tools/make_fixture_feed.py /tmp/minimal.zip
+          python -m venv /tmp/smoke
+          /tmp/smoke/bin/pip install --quiet dist/gtfs_validator-*.whl
+          /tmp/smoke/bin/gtfs-validator -i /tmp/minimal.zip -o /tmp/smokeout
+          test -s /tmp/smokeout/report.json
+          test -s /tmp/smokeout/report.html
+          test -s /tmp/smokeout/system_errors.json

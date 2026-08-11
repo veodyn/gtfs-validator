@@ -114,7 +114,9 @@ python -m pytest
 ```
 
 Six checks cover different ground, and each has caught defects the others could
-not:
+not. The first two run in CI on every push; the four that need a JDK and the
+pinned jar run on their own schedule and on any pull request touching `src/` or
+`tools/`, in `.github/workflows/differential.yml`:
 
 ```bash
 python -m pytest                                    # behaviour, per unit
@@ -124,7 +126,7 @@ DATE=2026-06-01 PYTHON=.venv/bin/python \
 DATE=2026-06-01 PYTHON=.venv/bin/python \
   tools/diff_full_output_against_upstream.sh feed.zip jar.jar   # summary + HTML
 PYTHONPATH=src python tools/measure_scale.py        # time and memory, one big feed
-python tools/diff_hashmap_against_jdk.py            # HashMap order, 316 orders
+python tools/diff_hashmap_against_jdk.py            # HashMap order, 320 orders
 python tools/diff_farmhash_against_guava.py         # Guava's fingerprint, 238 cases
 ```
 
@@ -142,6 +144,12 @@ eight bytes late, wrong only for inputs between 33 and 64 bytes.
 What none of them covers is input nobody thought to build. Every parity defect
 found late was on a feed shape no probe carried, so a green run means "matches on
 the feeds we have".
+
+Coverage is 94% with branch coverage on, and CI fails under 93. `report.html` is
+additionally pinned byte for byte by `tests/golden/report.html`, so a refactor
+that reflows the page fails in the suite rather than waiting for a differential
+run. Regenerate that file with `python tools/regenerate_html_golden.py`, and read
+the diff: a changed golden is a changed report.
 
 ## Relationship to upstream
 
