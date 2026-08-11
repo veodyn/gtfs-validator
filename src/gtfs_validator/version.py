@@ -10,9 +10,11 @@ The rule-set generation is a separate fact and lives in
 `data/canonical_notices.json` under `_meta.tag`.
 
 Kept in a module of its own so `pyproject.toml` and the report cannot drift:
-`tests/test_version.py` asserts they agree.
+`tests/test_version.py` asserts they agree, and covers the alias package's
+dependency floor too. That sentence was here before the test was, which is the
+argument for the test: three copies of the string were guarded by a claim.
 """
 
 from __future__ import annotations
 
-VERSION = "0.1.0.dev0"
+VERSION = "0.1.0"

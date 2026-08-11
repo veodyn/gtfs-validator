@@ -13,12 +13,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gtfs-lint"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "Renamed to gtfs-validator. This is an alias that installs it."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
-dependencies = ["gtfs-validator==0.1.0.dev0"]
+# A floor, not a pin. An exact pin would freeze anyone who followed the old name
+# at whatever release the alias was last built against, and would mean rebuilding
+# and re-uploading this package for every gtfs-validator release. The floor is the
+# release this alias was cut beside, so it can never resolve to something older
+# than the rename.
+dependencies = ["gtfs-validator>=0.1.0"]
 classifiers = [
     "Development Status :: 7 - Inactive",
     "Programming Language :: Python :: 3",
