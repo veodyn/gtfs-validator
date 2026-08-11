@@ -22,10 +22,6 @@ You get the same three files the Java validator writes, with the same contents:
 
 GTFS Schedule only. Realtime is out of scope here exactly as it is upstream.
 
-> Status: pre-release. The rule set is complete and the CLI matches the jar, both
-> held in place by differential tests against the real thing. Test coverage of
-> the CLI and the report summary is still thin, and no real-world feed has been
-> through the HTML report path yet.
 
 ## Why this exists
 
