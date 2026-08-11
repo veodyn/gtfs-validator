@@ -1,5 +1,10 @@
 # gtfs-validator (Python)
 
+[![ci](https://github.com/veodyn/gtfs-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/veodyn/gtfs-validator/actions/workflows/ci.yml)
+[![differential](https://github.com/veodyn/gtfs-validator/actions/workflows/differential.yml/badge.svg)](https://github.com/veodyn/gtfs-validator/actions/workflows/differential.yml)
+[![pypi](https://img.shields.io/pypi/v/gtfs-validator)](https://pypi.org/project/gtfs-validator/)
+[![python](https://img.shields.io/pypi/pyversions/gtfs-validator)](https://pypi.org/project/gtfs-validator/)
+
 A drop-in replacement for the canonical GTFS validator, written in pure Python.
 It needs no JVM and has no runtime dependencies.
 
@@ -36,7 +41,9 @@ feed data itself, [`gtfs-kit`][gtfs-kit] is good and does not overlap.
 
 Close enough that swapping the binary is meant to be the entire change. That
 claim is tested rather than asserted: both reports run against the pinned jar on
-the same feeds, and any difference fails the build.
+the same feeds, and any difference fails the build. That is the `differential`
+badge above. It runs weekly and on any change to `src/` or `tools/`, so unlike the
+`ci` one it is not a statement about the newest commit.
 
 | | |
 |---|---|
