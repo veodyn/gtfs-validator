@@ -58,8 +58,9 @@ class FeedContainer:
         self.path = path
         self._zf = zf
         self._all_names = names
-        # root_files is everything at the archive root; filenames is the subset
-        # that looks like a GTFS table and is therefore worth parsing.
+        # root_files is everything at the archive root; entry_of maps each GTFS
+        # file the archive carries to the entry it is carried under, and filenames
+        # is the table subset of that, which is what gets parsed.
         #
         # The archive's own order, not sorted. Upstream walks `gtfsInput.getFilenames()` and submits
         # one loader per file to an executor it runs single-threaded, so a zip's entry order is the
@@ -68,8 +69,42 @@ class FeedContainer:
         # entries were written, which sorting reverses for most feeds. Found by the real-feed corpus,
         # as `mixed_case_recommended_field` samples in a different order from the jar's on four of
         # six feeds that otherwise agreed on every notice.
-        self.root_files = [n for n in names if "/" not in n and n]
-        self.filenames = [n for n in self.root_files if n.endswith(".txt")]
+        #
+        # Deduplicated because `GtfsZipFileInput` collects entry names into an
+        # ImmutableSet, so a name the archive repeats is one file to everything
+        # downstream. Measured on probe `dup_exact`, a zip carrying agency.txt
+        # twice: the jar loads it once.
+        self.root_files = list(dict.fromkeys(n for n in names if "/" not in n and n))
+        # GtfsFeedLoader matches an entry to a table with
+        # `remainingDescriptors.remove(filename.toLowerCase())`, so the match folds
+        # case and the first entry that folds to a table name takes the descriptor
+        # with it: a later entry folding to the same name finds nothing and draws
+        # unknown_file. Measured on probes `cap_agency` (Agency.txt validates as
+        # agency.txt) and `both_cap_first` (the jar's unknown_file names whichever
+        # spelling comes second). Java's toLowerCase is locale-dependent and this
+        # is not; the two agree on every ASCII table name.
+        self.entry_of: dict[str, str] = {}
+        self.unknown_files: list[str] = []
+        for name in self.root_files:
+            canonical = name.lower()
+            if canonical in KNOWN_FILES and canonical not in self.entry_of:
+                self.entry_of[canonical] = name
+            else:
+                self.unknown_files.append(name)
+        # Keyed by the canonical name, because that is what upstream's notices,
+        # schemas and table containers are keyed by: the descriptor carries
+        # `gtfsFilename()` into every per-table notice, not the archive's spelling.
+        # Measured on probe `cap_empty`: a zero-byte Agency.txt draws empty_file
+        # for agency.txt.
+        self.filenames = [name for name in self.entry_of if name.endswith(".txt")]
+        # Python's ZipFile indexes by name and keeps the last entry of a repeated
+        # name, where Commons Compress hands the loader the first. Measured on
+        # probe `dup_exact_rev`, whose first agency.txt is the empty one: the jar
+        # draws empty_file and counts no agencies, so it read the first.
+        self._entries: dict[str, zipfile.ZipInfo] = {}
+        if zf is not None:
+            for info in zf.infolist():
+                self._entries.setdefault(info.filename, info)
 
     def has_subfolder_tables(self) -> bool:
         """containsGtfsFileInSubfolder: a nested entry named after a known table.
@@ -86,15 +121,25 @@ class FeedContainer:
             for name in self._all_names
         )
 
+    def entry_name(self, name: str) -> str:
+        """The archive's spelling of a canonical GTFS filename.
+
+        A name the archive does not carry passes through, so a caller asking for a
+        missing table still gets the archive's own KeyError rather than this one's.
+        """
+        return self.entry_of.get(name, name)
+
     def open_table(self, name: str) -> IO[bytes]:
+        entry = self.entry_name(name)
         if self._zf is not None:
-            return self._zf.open(name)
-        return (self.path / name).open("rb")
+            return self._zf.open(self._entries.get(entry, entry))
+        return (self.path / entry).open("rb")
 
     def size_of(self, name: str) -> int:
+        entry = self.entry_name(name)
         if self._zf is not None:
-            return self._zf.getinfo(name).file_size
-        return (self.path / name).stat().st_size
+            return self._entries[entry].file_size
+        return (self.path / entry).stat().st_size
 
     def walk(self, notices: NoticeContainer) -> None:
         # GtfsInput adds this notice and then returns the input, so the loader
@@ -110,14 +155,17 @@ class FeedContainer:
             notices.add(Notice("missing_required_file", Severity.ERROR, {"filename": name}))
         for name in descriptor_order(RECOMMENDED_FILES - present):
             notices.add(Notice("missing_recommended_file", Severity.WARNING, {"filename": name}))
-        # Unknown covers every root entry that is not a known table, including
-        # non-.txt files like a stray README. Archive order, because upstream emits this inside its
-        # walk over getFilenames(); see root_files.
-        unknown = KNOWN_FILES
-        for name in self.root_files:
-            if name not in unknown:
-                notices.add(Notice("unknown_file", Severity.INFO, {"filename": name}))
+        # Unknown covers every root entry that did not claim a GTFS file, including
+        # non-.txt files like a stray README, and reports the archive's spelling
+        # rather than a canonical name. Archive order, because upstream emits this
+        # inside its walk over getFilenames(); see root_files.
+        for name in self.unknown_files:
+            notices.add(Notice("unknown_file", Severity.INFO, {"filename": name}))
         self._check_conditional_files(present, notices)
+        # Only files that matched a descriptor: upstream emits empty_file from
+        # CsvFileLoader, which never runs on an entry it has no table for.
+        # Measured on probe `unknown_empty`, a zero-byte notes.txt: the jar reports
+        # unknown_file for it and nothing else.
         for name in self.filenames:
             if self.size_of(name) == 0:
                 notices.add(Notice("empty_file", Severity.ERROR, {"filename": name}))
@@ -131,7 +179,7 @@ class FeedContainer:
         both with static sets reported a spurious missing_required_file on a
         geojson-only feed and the wrong severity on a translated one.
         """
-        if "stops.txt" not in present and GEOJSON_FILE not in self.root_files:
+        if "stops.txt" not in present and GEOJSON_FILE not in self.entry_of:
             notices.add(Notice("missing_required_file", Severity.ERROR, {"filename": "stops.txt"}))
         if "feed_info.txt" not in present:
             if "translations.txt" in present:
