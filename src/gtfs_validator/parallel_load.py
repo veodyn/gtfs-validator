@@ -106,13 +106,22 @@ def _absorb_shares(
     return merged_load, merge_ops([share[1] for share in shares]), None
 
 
-def _sizes(path: Path, names: list[str]) -> dict[str, int]:
-    """Uncompressed size per file, for balancing; a directory feed stats instead."""
+def _sizes(feed, path: Path, names: list[str]) -> dict[str, int]:
+    """Uncompressed size per file, for balancing; a directory feed stats instead.
+
+    `names` are canonical table names, which is not what the archive is keyed by
+    on a feed that spells one of them Agency.txt, so each is resolved back to its
+    entry first. A name with no entry balances as zero rather than raising: this
+    only decides which worker gets which table.
+    """
+    entries = {n: feed.entry_name(n) for n in names}
     if path.is_dir():
-        return {n: (path / n).stat().st_size if (path / n).exists() else 0 for n in names}
+        return {
+            n: (path / e).stat().st_size if (path / e).exists() else 0 for n, e in entries.items()
+        }
     with zipfile.ZipFile(path) as archive:
         known = {info.filename: info.file_size for info in archive.infolist()}
-    return {n: known.get(n, 0) for n in names}
+    return {n: known.get(e, 0) for n, e in entries.items()}
 
 
 def load_tables_parallel(
@@ -128,17 +137,18 @@ def load_tables_parallel(
     """The parallel counterpart of the sequential per-table loop in `cli._validate`.
 
     Returns None to demand the sequential path for an archive the split cannot
-    represent: duplicate entry names key the same table twice, and a review measured
-    the parallel run misattributing the resulting loader error.
+    represent. That used to include duplicate entry names, which keyed the same
+    table twice and which a review measured the parallel run misattributing the
+    loader error for. The container now folds a repeated name into one file the way
+    upstream's ImmutableSet does, so `feed.filenames` cannot repeat and both paths
+    load the same single table.
     """
     names = [n for n in feed.filenames if n in schemas]
     if not names:
         return {}
-    if len(set(feed.filenames)) != len(feed.filenames):
-        return None
     # Largest tables first, dealt round-robin, so stop_times and shapes land on
     # different workers rather than by accident of alphabetical order.
-    sizes = _sizes(path, names)
+    sizes = _sizes(feed, path, names)
     # A giant table splits across every worker instead of serialising one:
     # measured on 684-BE, the single-worker parse-and-type of stop_times.txt was
     # two thirds of the whole run at -t 6.

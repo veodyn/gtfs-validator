@@ -87,10 +87,12 @@ def test_reports_are_byte_identical_across_thread_counts(tmp_path):
     assert len(json.loads(one[0])["notices"]) > 3
 
 
-def test_duplicate_zip_entries_fall_back_to_the_sequential_path(tmp_path):
+def test_duplicate_zip_entries_load_the_same_way_on_both_paths(tmp_path):
     """A review measured the parallel loader misattributing the loader error a
-    duplicate entry causes; such an archive now takes the sequential path, so the
-    reports stay byte-identical."""
+    duplicate entry causes, and the fix was to send such an archive down the
+    sequential path. The container now folds a repeated entry name into one file,
+    as upstream's ImmutableSet of filenames does, so there is no second load to
+    misattribute and both paths stay byte-identical without the fallback."""
     feed = tmp_path / "dup.zip"
     _messy_feed(feed)
     with zipfile.ZipFile(feed, "a") as archive:

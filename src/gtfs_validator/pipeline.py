@@ -77,12 +77,14 @@ def run_validation(
             # loaded: a file that raised is absent from `loads` while still
             # being present in the feed.
             #
-            # `filenames` is the .txt subset, so locations.geojson has to be added by
-            # name or every rule asking `is_missing` about it is told yes on a feed that
-            # carries one. That silenced overlapping_zone_and_pickup_drop_off_window
-            # completely, and the unit tests could not see it: a FakeFeed answers
-            # `is_missing` from the tables it was handed.
-            present = frozenset(feed.filenames) | ({GEOJSON_FILE} & set(feed.root_files))
+            # `entry_of` rather than `filenames`, which is the .txt subset:
+            # locations.geojson has to be in here or every rule asking `is_missing`
+            # about it is told yes on a feed that carries one. That silenced
+            # overlapping_zone_and_pickup_drop_off_window completely, and the unit
+            # tests could not see it: a FakeFeed answers `is_missing` from the
+            # tables it was handed. Canonical names, so a feed spelling a table
+            # Agency.txt reaches the rules as agency.txt.
+            present = frozenset(feed.entry_of)
             _run(store, work, notices, ctx, loads, present, system_errors, threads)
             if register is not None:
                 register.register("run_rules")
@@ -92,8 +94,10 @@ def run_validation(
             #
             # summary.files is the whole archive listing, including files GTFS
             # does not define (a feed carrying notes.md lists it), so this reads
-            # root_files rather than the .txt subset `present` holds.
-            listing = frozenset(feed.root_files) | present
+            # root_files rather than the tables `present` holds. Raw entry names:
+            # measured on probe `cap_agency`, the jar's summary lists Agency.txt as
+            # the archive spells it even though its notices say agency.txt.
+            listing = frozenset(feed.root_files)
             facts = feed_facts(FeedView(store, loads, present), listing)
             if register is not None:
                 register.register("load_and_validate")
@@ -144,7 +148,7 @@ def _load_all(
     # locations.geojson is not a .txt table, so it is loaded on its own path. Its
     # TableLoad joins the same map, so a file that ends UNPARSABLE_ROWS looks
     # empty to a file rule exactly as a CSV table in that state does.
-    if GEOJSON_FILE in feed.root_files:
+    if GEOJSON_FILE in feed.entry_of:
         try:
             loads[GEOJSON_FILE] = _load_geojson(feed, notices, store)
         except Exception as exc:  # noqa: BLE001 - reported, not swallowed
