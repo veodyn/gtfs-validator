@@ -14,6 +14,9 @@ artefacts and those are not derivable from the template by any general rule:
 - `<td th:text="..." />` likewise renders `<td >...</td>`.
 - An element removed by a false `th:if` leaves its line's leading indentation
   behind as a blank line, rather than removing the line.
+- A `th:each` over an empty collection does the same, and for the same reason: the
+  text node in front of the element survives it and ends in its indentation. Every
+  loop in the summary that can run zero times emits `_EMPTY_LOOP` instead.
 - `th:block` leaves its indentation behind on both the opening and closing line.
 - Escaping is Java's: an apostrophe is `&#39;`, where Python's `html.escape`
   writes `&#x27;`.
@@ -154,111 +157,6 @@ def _header(config: RunConfig, validated_at: str, different_date: bool) -> list[
     ]
 
 
-def _summary_block(facts: FeedFacts) -> list[str]:
-    """The five summary cells. Absent entirely when there is no feed metadata.
-
-    `htmlnotices` reads this module's helpers, so its import happens here rather
-    than at module scope to keep the cycle from closing at import time.
-    """
-    from gtfs_validator.htmlnotices import feed_info_cell
-
-    out = ['    <div class="summary">', '        <div class="summary-row">']
-    out += [
-        '            <div class="summary-cell summary_info">',
-        "                <h4>Agencies included</h4>",
-        "                <hr />",
-        "                <ul>",
-    ]
-    for agency in facts.agencies:
-        email = "Not provided" if not agency["email"] else agency["email"]
-        out += [
-            "                    <li>",
-            f"                        <span>{esc(agency['name'])}</span>",
-            "                        <ul>",
-            (
-                f"                            <li><b>website: </b>"
-                f'<a href="{esc(agency["url"])}">{esc(agency["url"])}</a></li>'
-            ),
-            (
-                f"                            <li><b>phone number: </b>"
-                f"<span >{esc(agency['phone'])}</span></li>"
-            ),
-            f"                            <li><b>email: </b><span >{esc(email)}</span></li>",
-            "                        </ul>",
-            "                    </li>",
-        ]
-    out += ["                </ul>", "            </div>"]
-    out += feed_info_cell(facts)
-    out += _files_cell(facts) + _counts_cell(facts) + _features_cell(facts)
-    out += ["        </div>", "    </div>"]
-    return out
-
-
-def _files_cell(facts: FeedFacts) -> list[str]:
-    out = [
-        '            <div class="summary-cell summary_list">',
-        "                <h4>Files included</h4>",
-        "                <hr />",
-        "                <ol>",
-    ]
-    out += [f"                    <li>{esc(name)}</li>" for name in facts.files]
-    return [*out, "                </ol>", "            </div>"]
-
-
-def _counts_cell(facts: FeedFacts) -> list[str]:
-    out = [
-        '            <div class="summary-cell summary_list">',
-        "                <h4>Counts</h4>",
-        "                <hr />",
-        "                <ul>",
-    ]
-    out += [
-        f"                    <li><span >{esc(label)}: {esc(value)}</span></li>"
-        # Alphabetical here and declaration-ordered in the JSON: the page walks
-        # FeedMetadata's TreeMap directly, where report.json goes through
-        # JsonReportCounts' declared fields. Measured, the two really do differ.
-        for label, value in sorted(facts.counts.items())
-    ]
-    return [*out, "                </ul>", "            </div>"]
-
-
-def _features_cell(facts: FeedFacts) -> list[str]:
-    out = [
-        '            <div class="summary-cell summary_list" id="gtfs-features-container">',
-        "                <h4>",
-        "                    GTFS Features included",
-        (
-            '                    <a href="#" class="tooltip" '
-            'onclick="event.preventDefault();"><span>(?)</span>'
-        ),
-        (
-            '                        <span class="tooltiptext" '
-            'style="transform: translateX(-100%)">GTFS features provide a standardized '
-            "vocabulary to define and describe features that are officially adopted in "
-            "GTFS.</span>"
-        ),
-        "                    </a>",
-        "                </h4>",
-        "                <hr />",
-        "                <div>",
-    ]
-    # The text node before `<span th:each>` is emitted once and ends in the
-    # element's indentation, so it opens the first iteration's line rather than
-    # standing alone. It is only a line of its own when the loop runs zero times.
-    if not facts.gtfs_features:
-        return [*out, " " * 20, "                </div>", "            </div>"]
-    for name in facts.gtfs_features:
-        out += [
-            '                    <span class="spec-feature">',
-            (
-                f'                        <a href="{esc(facts.feature_urls[name])}" '
-                f'target="_blank">{esc(name)}</a>'
-            ),
-            "                    </span>",
-        ]
-    return [*out, "                </div>", "            </div>"]
-
-
 def render(
     notices: NoticeContainer,
     facts: FeedFacts | None,
@@ -267,13 +165,14 @@ def render(
     different_date: bool,
 ) -> str:
     from gtfs_validator.htmlnotices import notice_table
+    from gtfs_validator.htmlsummary import summary_block
 
     lines = TEMPLATE.read_text(encoding="utf-8").split("\n")
     head = lines[:HEAD_LINES]
     head[1] = "<html>"
     body = ["<body>", *_header(config, validated_at, different_date)]
     if facts is not None:
-        body += _summary_block(facts)
+        body += summary_block(facts)
     body += ["", "", "    <h2>Specification Compliance report</h2>", ""]
     body += notice_table(notices)
     tail = lines[TAIL_FROM - 1 :]
