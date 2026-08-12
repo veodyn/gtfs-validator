@@ -103,14 +103,49 @@ def _typed_rows(
 RECOMMENDED_COLUMNS: dict[str, tuple[str, ...]] = {}
 
 
+def _unreadable_table(filename: str, notices: NoticeContainer) -> TableLoad:
+    """What upstream reports for a table it listed but cannot open.
+
+    Only a mac-wrapped zip reaches this. `GtfsZipFileInput` takes the wrapper
+    folder out of the names it lists but not out of the names it reads, so
+    `getFile` asks the archive for an entry it does not hold, Commons Compress
+    answers with a null stream, univocity raises on it, and `CsvFileLoader` catches
+    that as a parse failure and returns a container with INVALID_HEADERS.
+
+    The context is measured off probe `macfeed` rather than reasoned about.
+    `message` is "origin", the name of the null argument in univocity's own check,
+    and the three indices are what a TextParsingException carries when it fails
+    before reading a character.
+    """
+    notices.add(
+        Notice(
+            "csv_parsing_failed",
+            Severity.ERROR,
+            {
+                "filename": filename,
+                "charIndex": 0,
+                "columnIndex": -1,
+                "lineIndex": -1,
+                "message": "origin",
+                "parsedContent": "",
+            },
+        )
+    )
+    load = TableLoad()
+    load.fail(TableStatus.INVALID_HEADERS)
+    return load
+
+
 def _load_table(
-    feed: object,
+    feed,
     schema: TableSchema,
     store: FeedStore,
     notices: NoticeContainer,
     country_code: str,
 ) -> TableLoad:
     """Stream one table through parse, typing and storage without buffering it."""
+    if not feed.is_readable(schema.filename):
+        return _unreadable_table(schema.filename, notices)
     load = TableLoad()
     store.create_table(schema)
     rows = parse_table(
@@ -140,6 +175,13 @@ def _load_geojson(feed: object, notices: NoticeContainer, store: FeedStore) -> T
     The status matters on its own too: it is what suppresses missing_required_file for stops.txt.
     """
     load = TableLoad()
+    # Listed but unreadable, which only a mac-wrapped zip produces. Upstream's
+    # GeoJsonFileLoader swallows the failure where CsvFileLoader reports it:
+    # measured on probe `macgeo`, the jar's report names locations.geojson in its
+    # file listing and says nothing else about it, with no system error either.
+    if not feed.is_readable(GEOJSON_FILE):
+        load.fail(TableStatus.UNPARSABLE_ROWS)
+        return load
     with feed.open_table(GEOJSON_FILE) as raw:
         # errors="replace" for the same reason csvparse uses it: upstream decodes
         # with onMalformedInput(REPLACE), so malformed bytes become U+FFFD rather
