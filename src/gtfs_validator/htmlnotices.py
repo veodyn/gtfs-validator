@@ -118,7 +118,14 @@ def notice_table(container: NoticeContainer) -> list[str]:
         "        </thead>",
         "        <tbody>",
     ]
-    for severity, by_code in notices_map(container).items():
+    by_severity = notices_map(container)
+    # A feed with no notices at all still leaves the text node in front of the
+    # outer `<span th:each>` behind, and it ends in that span's indentation.
+    # Measured on a feed the jar reports nothing about: an 8-space line is all
+    # there is between <tbody> and </tbody>.
+    if not by_severity:
+        out.append(" " * 8)
+    for severity, by_code in by_severity.items():
         out.append("        <span>")
         for code, notices in by_code.items():
             out.append("            <span>")
@@ -218,6 +225,13 @@ def _head_cells(code: str, fields: list[str]) -> list[str]:
 
 
 def _body_rows(notices: list, fields: list[str]) -> list[str]:
+    """The sample rows, capped at MAX_ROWS by a `th:if` on the row itself.
+
+    The cap is `th:if="${iterStat.index < 50}"`, so the iterations past it still
+    happen and each leaves its row's indentation behind, exactly as any other
+    element a false th:if removes. Measured on a feed with 60 unknown files: the
+    jar writes fifty rows and then ten 36-space lines before </tbody>.
+    """
     out: list[str] = []
     for notice in notices[:MAX_ROWS]:
         context = _defined(notice.context)
@@ -228,4 +242,5 @@ def _body_rows(notices: list, fields: list[str]) -> list[str]:
             out.append(f"                                            <td >{rendered}</td>")
             out.append(" " * 40)
         out.append("                                    </tr>")
+    out += [" " * 36] * max(0, len(notices) - MAX_ROWS)
     return out
