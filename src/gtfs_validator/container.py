@@ -53,6 +53,43 @@ def descriptor_order(names: Iterable[str]) -> list[str]:
     return sorted(names, key=lambda name: _DESCRIPTOR_ORDER.get(name, len(_DESCRIPTOR_ORDER)))
 
 
+# GtfsZipFileInput's own constant, dropped from the listing so a zip made in
+# Finder does not draw an unknown_file for it.
+MACOSX_FILE_IN_ZIP = ".DS_Store"
+
+
+def _unwrap_mac_folder(names: list[str], archive_name: str) -> list[str]:
+    """Strip the wrapper folder Finder puts in a zip, as GtfsZipFileInput does.
+
+    Compressing a folder in Finder produces `feed.zip` holding `feed/agency.txt`,
+    so upstream watches for a directory entry named after the archive and, once it
+    sees one, removes that prefix from every entry from there on.
+
+    **It removes the prefix from the names it lists without removing it from the
+    names it reads**: `getFile` still asks the zip for the unwrapped name, gets
+    nothing back, and the loader turns the null stream into `csv_parsing_failed`.
+    Measured on probe `macfeed`: the jar reports six of those plus
+    invalid_input_files_in_subfolder, and its summary lists the unwrapped names.
+    Reproducing that is the point of unwrapping here; see `is_readable`.
+
+    Two details are upstream's rather than ours. The archive name has *every*
+    ".zip" removed, not just a trailing one (`String.replace`), and the flag is
+    sticky once any directory entry matches, not only the first. One is not
+    modelled: upstream strips the prefix with `replaceFirst`, which takes a regex,
+    so an archive whose name carries regex metacharacters matches differently
+    there than the plain first-occurrence removal here.
+    """
+    wrapper = archive_name.replace(".zip", "")
+    prefix = f"{wrapper}/"
+    unwrapped = []
+    inside = False
+    for name in names:
+        if name.endswith("/") and name.replace("/", "", 1) == wrapper:
+            inside = True
+        unwrapped.append(name.replace(prefix, "", 1) if inside else name)
+    return unwrapped
+
+
 class FeedContainer:
     def __init__(self, path: Path, names: list[str], zf: zipfile.ZipFile | None) -> None:
         self.path = path
@@ -74,7 +111,21 @@ class FeedContainer:
         # ImmutableSet, so a name the archive repeats is one file to everything
         # downstream. Measured on probe `dup_exact`, a zip carrying agency.txt
         # twice: the jar loads it once.
-        self.root_files = list(dict.fromkeys(n for n in names if "/" not in n and n))
+        #
+        # Two of the three filters are zip-only, because upstream applies them in
+        # GtfsZipFileInput and GtfsUnarchivedInput has no equivalent: the mac
+        # wrapper unwrap below, and dropping .DS_Store by name. Measured on a
+        # *directory* feed carrying one: the jar does report it as unknown_file.
+        listed = _unwrap_mac_folder(names, path.name) if zf is not None else names
+        self.root_files = list(
+            dict.fromkeys(
+                name
+                for name in listed
+                if name.strip()
+                and "/" not in name
+                and not (zf is not None and name == MACOSX_FILE_IN_ZIP)
+            )
+        )
         # GtfsFeedLoader matches an entry to a table with
         # `remainingDescriptors.remove(filename.toLowerCase())`, so the match folds
         # case and the first entry that folds to a table name takes the descriptor
@@ -137,6 +188,19 @@ class FeedContainer:
         """
         return self.entry_of.get(name, name)
 
+    def is_readable(self, name: str) -> bool:
+        """Whether the archive can actually supply this file's bytes.
+
+        Listed and readable are not the same thing after a mac-wrapper unwrap: the
+        listing names `agency.txt` while the archive holds `feed/agency.txt`. The
+        loader reports such a file the way upstream's does, as a parse failure,
+        rather than as a missing file or a crash. See `_unwrap_mac_folder`.
+        """
+        entry = self.entry_name(name)
+        if self._zf is not None:
+            return entry in self._entries
+        return (self.path / entry).is_file()
+
     def open_table(self, name: str) -> IO[bytes]:
         entry = self.entry_name(name)
         if self._zf is not None:
@@ -173,9 +237,12 @@ class FeedContainer:
         # Only files that matched a descriptor: upstream emits empty_file from
         # CsvFileLoader, which never runs on an entry it has no table for.
         # Measured on probe `unknown_empty`, a zero-byte notes.txt: the jar reports
-        # unknown_file for it and nothing else.
+        # unknown_file for it and nothing else. Unreadable files are out too: the
+        # loader never reaches the emptiness test for them, and asking their size
+        # here would raise. Measured on probe `macfeed`, whose six tables are all
+        # unreadable: the jar reports csv_parsing_failed for each and no empty_file.
         for name in self.filenames:
-            if self.size_of(name) == 0:
+            if self.is_readable(name) and self.size_of(name) == 0:
                 notices.add(Notice("empty_file", Severity.ERROR, {"filename": name}))
 
     def _check_conditional_files(self, present: set[str], notices: NoticeContainer) -> None:

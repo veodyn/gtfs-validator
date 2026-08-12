@@ -1,4 +1,4 @@
-"""Matching archive entries to tables: case folding and repeated entry names.
+"""Matching archive entries to tables: case folding, repeats, and the mac wrapper.
 
 Split from test_container.py, which was already near the file-size limit.
 
@@ -11,9 +11,11 @@ below was measured against the pinned jar on a probe zip built from
 tests/fixtures/minimal.zip.
 """
 
+import json
 import warnings
 import zipfile
 
+from gtfs_validator.cli import main
 from gtfs_validator.container import open_feed
 from gtfs_validator.notices import NoticeContainer
 
@@ -30,7 +32,11 @@ def make_zip(tmp_path, entries):
 
 
 def walk(tmp_path, entries):
-    feed = open_feed(make_zip(tmp_path, entries))
+    return walk_zip(make_zip(tmp_path, entries))
+
+
+def walk_zip(path):
+    feed = open_feed(path)
     notices = NoticeContainer()
     feed.walk(notices)
     return feed, [n for group in notices.grouped().values() for n in group]
@@ -133,6 +139,101 @@ def test_empty_file_is_not_reported_for_an_entry_with_no_table(tmp_path):
     _, found = walk(tmp_path, [("agency.txt", "x\n"), ("notes.txt", "")])
     assert contexts(found, "unknown_file") == ["notes.txt"]
     assert contexts(found, "empty_file") == []
+
+
+def test_ds_store_is_dropped_from_a_zip_listing(tmp_path):
+    """`GtfsZipFileInput` skips it by name, with a comment saying it does so to
+    prevent the notice. Measured on probe `ds_store`: the jar reports one
+    unknown_file for notes.md and nothing for .DS_Store. We reported both."""
+    _, found = walk(tmp_path, [("agency.txt", "x\n"), (".DS_Store", "junk"), ("notes.md", "hi")])
+    assert contexts(found, "unknown_file") == ["notes.md"]
+
+
+def test_ds_store_is_kept_for_a_directory_feed(tmp_path):
+    """The skip is `GtfsZipFileInput`'s alone: `GtfsUnarchivedInput` lists every
+    regular file. Measured on a directory feed carrying one: the jar reports
+    unknown_file for .DS_Store, so dropping it everywhere would be a divergence
+    introduced while fixing one."""
+    feed_dir = tmp_path / "feed"
+    feed_dir.mkdir()
+    (feed_dir / "agency.txt").write_text("x\n")
+    (feed_dir / ".DS_Store").write_bytes(b"junk")
+    feed = open_feed(feed_dir)
+    notices = NoticeContainer()
+    feed.walk(notices)
+    found = [n for group in notices.grouped().values() for n in group]
+    assert ".DS_Store" in contexts(found, "unknown_file")
+
+
+def mac_zip(tmp_path, folder, entries):
+    """A zip as Finder writes one: a directory entry, then everything under it."""
+    path = tmp_path / "feed.zip"
+    with zipfile.ZipFile(path, "w") as zf:
+        zf.writestr(f"{folder}/", b"")
+        for name, body in entries:
+            zf.writestr(f"{folder}/{name}", body)
+    return path
+
+
+def test_a_wrapper_folder_named_after_the_archive_is_stripped(tmp_path):
+    """Upstream unwraps `feed.zip` holding `feed/agency.txt` back to agency.txt.
+    Measured on probe `macfeed`: the jar's summary lists the unwrapped names and
+    it reports no missing_required_file."""
+    feed = open_feed(mac_zip(tmp_path, "feed", [("agency.txt", "x\n"), ("notes.md", "hi")]))
+    assert feed.root_files == ["agency.txt", "notes.md"]
+    assert feed.filenames == ["agency.txt"]
+
+
+def test_an_unwrapped_table_is_listed_but_not_readable(tmp_path):
+    """The unwrap rewrites the listing and not the reads, which is upstream's bug
+    and the whole reason a mac-wrapped feed fails on the jar. Measured on
+    `macfeed`: six tables, six csv_parsing_failed, no empty_file and no
+    missing_required_file."""
+    feed, found = walk_zip(mac_zip(tmp_path, "feed", [("agency.txt", ""), ("stops.txt", "x\n")]))
+    assert not feed.is_readable("agency.txt")
+    assert contexts(found, "empty_file") == []
+    # Descriptor-map order, not alphabetical; see test_container.py.
+    assert contexts(found, "missing_required_file") == ["stop_times.txt", "routes.txt", "trips.txt"]
+    # Unwrapping does not touch the subfolder test, which upstream runs over the
+    # raw entry names in a separate pass of the archive.
+    assert [n.code for n in found if n.code == "invalid_input_files_in_subfolder"] == [
+        "invalid_input_files_in_subfolder"
+    ]
+
+
+def test_an_unwrapped_table_is_reported_as_a_parse_failure(tmp_path):
+    """End to end, because the notice comes from the loader rather than the walk.
+
+    Measured on probe `macfeed`, minimal.zip wrapped in a folder named after the
+    archive: the jar reports csv_parsing_failed for each of the six tables, with
+    this exact context, and writes an empty system_errors.json. Reading a name the
+    archive does not hold is a crash on the way to that notice, not a system error.
+    """
+    feed = mac_zip(tmp_path, "feed", [("agency.txt", "agency_name\nAcme\n")])
+    out = tmp_path / "out"
+    main(["-i", str(feed), "-o", str(out), "-d", "2026-06-01"])
+    report = json.loads((out / "report.json").read_text())
+    failures = [n for n in report["notices"] if n["code"] == "csv_parsing_failed"]
+    assert failures[0]["sampleNotices"] == [
+        {
+            "filename": "agency.txt",
+            "charIndex": 0,
+            "columnIndex": -1,
+            "lineIndex": -1,
+            "message": "origin",
+            "parsedContent": "",
+        }
+    ]
+    assert json.loads((out / "system_errors.json").read_text())["notices"] == []
+
+
+def test_a_wrapper_folder_with_another_name_is_left_alone(tmp_path):
+    """The flag is set only by a directory entry named after the archive. Measured
+    on probe `macfeed_other`, whose wrapper is `inner/`: the jar reports five
+    missing_required_file and an empty file listing."""
+    feed = open_feed(mac_zip(tmp_path, "inner", [("agency.txt", "x\n")]))
+    assert feed.root_files == []
+    assert feed.filenames == []
 
 
 def test_a_subfolder_table_outside_the_gtfs_files_enum_is_ignored(tmp_path):
