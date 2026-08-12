@@ -73,14 +73,27 @@ jobs:
             https://github.com/MobilityData/gtfs-validator.git /tmp/gtfs-upstream
           test -d /tmp/gtfs-upstream/main/src
 
-      - name: Build the fixture feed
-        run: python tools/make_fixture_feed.py tests/fixtures/minimal.zip
+      - name: Build the fixture feeds
+        run: |
+          python tools/make_fixture_feed.py tests/fixtures/minimal.zip
+          python tools/make_fixture_feed.py --mixed-case tests/fixtures/mixed_case.zip
 
       - name: Notices, per feed
         run: DATE="$DATE" PYTHON=python tools/diff_against_upstream.sh tests/fixtures/minimal.zip "$JAR"
 
       - name: The whole report, summary and HTML included
         run: DATE="$DATE" PYTHON=python tools/diff_full_output_against_upstream.sh tests/fixtures/minimal.zip "$JAR"
+
+      # Same feed, two tables recased and one entry name repeated. Upstream folds
+      # both away, so the jar's report is the plain feed's report and any drift back
+      # to matching entry names literally shows up here. Before the fold this feed
+      # drew two spurious missing_required_file, two spurious unknown_file and a
+      # loader error, none of which minimal.zip could expose.
+      - name: Notices, on a feed with recased and repeated entry names
+        run: DATE="$DATE" PYTHON=python tools/diff_against_upstream.sh tests/fixtures/mixed_case.zip "$JAR"
+
+      - name: The whole report, on the same feed
+        run: DATE="$DATE" PYTHON=python tools/diff_full_output_against_upstream.sh tests/fixtures/mixed_case.zip "$JAR"
 
       - name: HashMap iteration order against the JDK
         run: python tools/diff_hashmap_against_jdk.py
