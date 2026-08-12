@@ -17,4 +17,4 @@ argument for the test: three copies of the string were guarded by a claim.
 
 from __future__ import annotations
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
