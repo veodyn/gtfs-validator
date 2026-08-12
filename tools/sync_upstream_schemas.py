@@ -11,6 +11,11 @@ FieldType.ENUM carrying their permitted values, read from the Gtfs*Enum source.
 
 @GtfsJson marks GtfsGeoJsonFeatureSchema, which is not a CSV table. It is skipped
 here and handled by plan 5, so this emits 31 tables from 32 schema files.
+
+The same file also carries the `GtfsFiles` enum, which is a second, shorter list
+of table names upstream maintains by hand and uses for exactly one thing: deciding
+whether a nested entry is a GTFS file. It is generated here rather than derived
+from the 31 because it is *not* the same list; see GTFS_FILES_ENUM below.
 """
 
 from __future__ import annotations
@@ -126,6 +131,30 @@ def _translation_record_id_type(arguments: str) -> str:
     return "RECORD_ID"
 
 
+# The enum constants in GtfsFiles.java: AGENCY("agency.txt"), one per line. The
+# file has no other string literals, but the pattern is anchored on the constant
+# form anyway so a javadoc example could not sneak in.
+GTFS_FILES_RE = re.compile(r'^\s*[A-Z][A-Z_0-9]*\("([^"]+)"\)', re.M)
+GTFS_FILES_SOURCE = "core/src/main/java/org/mobilitydata/gtfsvalidator/input/GtfsFiles.java"
+
+
+def gtfs_files_enum(root: Path) -> list[str]:
+    """`GtfsFiles`, in declaration order.
+
+    Upstream keeps this by hand and it has fallen behind its own table
+    descriptors: at v8.0.1 it lists 24 names where 31 tables exist, missing the
+    GTFS-Flex and Fares v2 additions. Since the only caller is
+    `containsGtfsFileInSubfolder`, that gap is what decides whether a nested
+    booking_rules.txt draws invalid_input_files_in_subfolder, and it does not.
+    Deriving this from the table registry instead would be stricter than upstream
+    on seven filenames.
+    """
+    names = GTFS_FILES_RE.findall((root / GTFS_FILES_SOURCE).read_text())
+    if not names:
+        raise SystemExit(f"no enum constants found in {GTFS_FILES_SOURCE}")
+    return names
+
+
 def head_commit(checkout: Path) -> str:
     return subprocess.run(
         ["git", "-C", str(checkout), "rev-parse", "HEAD"],
@@ -158,11 +187,15 @@ def main() -> None:
             "commit": head_commit(root),
         },
         "tables": dict(sorted(tables.items())),
+        "gtfs_files_enum": gtfs_files_enum(root),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2) + "\n")
     total = sum(len(t["fields"]) for t in tables.values())
-    print(f"wrote {OUT} with {len(tables)} tables and {total} fields")
+    print(
+        f"wrote {OUT} with {len(tables)} tables, {total} fields "
+        f"and {len(payload['gtfs_files_enum'])} GtfsFiles constants"
+    )
 
 
 if __name__ == "__main__":

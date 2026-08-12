@@ -1,4 +1,5 @@
 from gtfs_validator.schema import (
+    GTFS_FILES_ENUM,
     KNOWN_FILES,
     RECOMMENDED_FILES,
     REQUIRED_FILES,
@@ -32,6 +33,33 @@ def test_fares_v2_tables_are_known():
     # conformant Fares v2 feed drew one spurious unknown_file per table.
     for name in ("fare_media.txt", "fare_products.txt", "areas.txt", "networks.txt"):
         assert name in KNOWN_FILES, name
+
+
+def test_the_gtfs_files_enum_is_the_shorter_hand_maintained_list():
+    """23 names, and the eight it lacks are the point of generating it.
+
+    `GtfsFiles` is upstream's own enum, kept by hand beside 31 generated
+    descriptors, and `containsGtfsFileInSubfolder` is its only caller. Deriving the
+    subfolder check from the descriptors instead reported a nested booking_rules.txt
+    that the jar says nothing about.
+    """
+    assert len(GTFS_FILES_ENUM) == 23
+    assert GTFS_FILES_ENUM < KNOWN_FILES
+    assert (
+        frozenset(
+            {
+                "booking_rules.txt",
+                "fare_leg_join_rules.txt",
+                "location_group_stops.txt",
+                "location_groups.txt",
+                "networks.txt",
+                "rider_categories.txt",
+                "route_networks.txt",
+                "timeframes.txt",
+            }
+        )
+        == KNOWN_FILES - GTFS_FILES_ENUM
+    )
 
 
 def test_single_row_tables_come_from_the_annotation():

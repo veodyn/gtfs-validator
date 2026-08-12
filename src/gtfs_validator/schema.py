@@ -135,8 +135,13 @@ def _build_field(raw: dict) -> Field:
 
 
 @lru_cache(maxsize=1)
+def _raw_schemas() -> dict:
+    return json.loads(files("gtfs_validator.data").joinpath("table_schemas.json").read_text())
+
+
+@lru_cache(maxsize=1)
 def load_schemas() -> dict[str, TableSchema]:
-    raw = json.loads(files("gtfs_validator.data").joinpath("table_schemas.json").read_text())
+    raw = _raw_schemas()
     return {
         filename: TableSchema(
             filename=filename,
@@ -158,6 +163,13 @@ def _files_with(presence: Presence) -> frozenset[str]:
 REQUIRED_FILES = _files_with(Presence.REQUIRED)
 RECOMMENDED_FILES = _files_with(Presence.RECOMMENDED)
 KNOWN_FILES = frozenset(load_schemas())
+# `GtfsFiles`, upstream's *other* list of table names. It is hand-maintained and
+# has fallen eight names behind the descriptors it duplicates: no GTFS-Flex table
+# and none of networks/route_networks/timeframes/rider_categories are in it. Its
+# only caller is containsGtfsFileInSubfolder, so those eight are exactly the
+# filenames a nested copy of which draws no invalid_input_files_in_subfolder from
+# the jar. Using KNOWN_FILES there made us stricter than upstream on all eight.
+GTFS_FILES_ENUM = frozenset(_raw_schemas()["gtfs_files_enum"])
 SINGLE_ROW_FILES = frozenset(name for name, schema in load_schemas().items() if schema.single_row)
 
 
