@@ -2000,5 +2000,30 @@
         }
       ]
     }
-  }
+  },
+  "gtfs_files_enum": [
+    "agency.txt",
+    "stops.txt",
+    "routes.txt",
+    "trips.txt",
+    "stop_times.txt",
+    "calendar.txt",
+    "calendar_dates.txt",
+    "fare_attributes.txt",
+    "fare_rules.txt",
+    "fare_media.txt",
+    "fare_products.txt",
+    "fare_leg_rules.txt",
+    "fare_transfer_rules.txt",
+    "areas.txt",
+    "stop_areas.txt",
+    "shapes.txt",
+    "frequencies.txt",
+    "transfers.txt",
+    "pathways.txt",
+    "levels.txt",
+    "translations.txt",
+    "feed_info.txt",
+    "attributions.txt"
+  ]
 }

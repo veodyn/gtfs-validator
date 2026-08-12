@@ -107,17 +107,25 @@ class FeedContainer:
                 self._entries.setdefault(info.filename, info)
 
     def has_subfolder_tables(self) -> bool:
-        """containsGtfsFileInSubfolder: a nested entry named after a known table.
+        """containsGtfsFileInSubfolder: a nested entry named after a GtfsFiles constant.
 
-        The basename is tested against the generated table set rather than
-        against ".txt", so a nested notes.txt does not count. Measured: neither
-        extra/notes.txt nor extra/locations.geojson draws the notice from the jar,
-        so the geojson is outside GtfsFiles even though it is a GTFS input at the
-        root. schema.KNOWN_FILES is used rather than this module's, which is
-        widened with the geojson for the unknown_file check.
+        Three things about the comparison, each of them measured rather than
+        assumed, and each the opposite of what the root-level match does:
+
+          * The set is `GtfsFiles`, upstream's hand-maintained enum of 23 names,
+            not the 31 generated descriptors. A nested booking_rules.txt draws
+            nothing from the jar; matching against the descriptors drew an ERROR.
+          * `GtfsFiles.containsGtfsFile` compares with `equals`, so extra/Agency.txt
+            draws nothing either, where the root match folds case.
+          * The basename is tested against that set rather than against ".txt", so
+            neither extra/notes.txt nor extra/locations.geojson counts: the geojson
+            is a GTFS input at the root but is not in the enum.
+
+        Raw entry names, before the mac-wrapper unwrap: upstream runs this over
+        its own pass of the zip stream, ahead of building the filename set.
         """
         return any(
-            "/" in name and name.rsplit("/", 1)[-1] in schema.KNOWN_FILES
+            "/" in name and name.rsplit("/", 1)[-1] in schema.GTFS_FILES_ENUM
             for name in self._all_names
         )
 

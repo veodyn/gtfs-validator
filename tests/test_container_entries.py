@@ -135,6 +135,16 @@ def test_empty_file_is_not_reported_for_an_entry_with_no_table(tmp_path):
     assert contexts(found, "empty_file") == []
 
 
+def test_a_subfolder_table_outside_the_gtfs_files_enum_is_ignored(tmp_path):
+    """`containsGtfsFileInSubfolder` reads `GtfsFiles`, a hand-maintained enum of 23
+    names, not the 31 generated descriptors. Measured on probe `sub_booking`,
+    minimal.zip plus extra/booking_rules.txt: the jar reports nothing, and we
+    reported invalid_input_files_in_subfolder at ERROR."""
+    for name in ("extra/booking_rules.txt", "extra/timeframes.txt", "extra/networks.txt"):
+        _, found = walk(tmp_path, [("agency.txt", "x\n"), (name, "x\n")])
+        assert [n.code for n in found if n.code == "invalid_input_files_in_subfolder"] == [], name
+
+
 def test_a_subfolder_table_is_still_matched_case_sensitively(tmp_path):
     """The contrast is deliberate: `GtfsFiles.containsGtfsFile` compares with
     `equals`, while the root match folds. Measured on probe `sub_cap`, minimal.zip
