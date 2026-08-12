@@ -77,6 +77,8 @@ jobs:
         run: |
           python tools/make_fixture_feed.py tests/fixtures/minimal.zip
           python tools/make_fixture_feed.py --mixed-case tests/fixtures/mixed_case.zip
+          python tools/make_fixture_feed.py --wrapped tests/fixtures/wrapped.zip
+          python tools/make_fixture_feed.py --clean tests/fixtures/clean.zip
 
       - name: Notices, per feed
         run: DATE="$DATE" PYTHON=python tools/diff_against_upstream.sh tests/fixtures/minimal.zip "$JAR"
@@ -94,6 +96,25 @@ jobs:
 
       - name: The whole report, on the same feed
         run: DATE="$DATE" PYTHON=python tools/diff_full_output_against_upstream.sh tests/fixtures/mixed_case.zip "$JAR"
+
+      # A Finder-made zip: every table inside a folder named after the archive,
+      # with a .DS_Store beside them. Upstream unwraps the folder from its listing
+      # but not from its reads, so the jar reports a parse failure per table and
+      # skips the .DS_Store. Both halves are ours to reproduce, and neither is
+      # reachable from a flat feed.
+      - name: Notices, on a feed wrapped in a folder
+        run: DATE="$DATE" PYTHON=python tools/diff_against_upstream.sh tests/fixtures/wrapped.zip "$JAR"
+
+      - name: The whole report, on the wrapped feed
+        run: DATE="$DATE" PYTHON=python tools/diff_full_output_against_upstream.sh tests/fixtures/wrapped.zip "$JAR"
+
+      # A feed the jar reports nothing about. The page's empty notice table has no
+      # other way in, and this feed carries two GTFS features where minimal.zip has
+      # none, so it also covers the repeated-span rendering. Only the full harness
+      # runs on it: with no notices on either side, the notice one has nothing to
+      # compare.
+      - name: The whole report, on a feed with no notices at all
+        run: DATE="$DATE" PYTHON=python tools/diff_full_output_against_upstream.sh tests/fixtures/clean.zip "$JAR"
 
       - name: HashMap iteration order against the JDK
         run: python tools/diff_hashmap_against_jdk.py
