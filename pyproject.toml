@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gtfs-validator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Pure-Python validator for the canonical GTFS rule set. No JVM, no dependencies."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -31,6 +31,14 @@ classifiers = [
     "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Software Development :: Quality Assurance",
 ]
+
+# 0.1.0 went out without these, so its project page carries no link to the source,
+# the issue tracker or anything else, and a PyPI release is immutable: the only fix
+# was the next version. The sidebar is built from this table alone.
+[project.urls]
+Homepage = "https://github.com/veodyn/gtfs-validator"
+Repository = "https://github.com/veodyn/gtfs-validator"
+Issues = "https://github.com/veodyn/gtfs-validator/issues"
 
 [project.scripts]
 gtfs-validator = "gtfs_validator.cli:main"
