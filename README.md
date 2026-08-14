@@ -22,13 +22,15 @@ You get the same three files the Java validator writes, with the same contents:
 
 ## Why this exists
 
-Upstream is Java. If your pipeline is Python, you either ship a JVM in every
-container and CI runner to run it, or you fall back on `transitfeed`, which last
-saw a release in 2018.
+Upstream is Java. You can run it as a jar, [as a Docker container][upstream-docker],
+or behind [the API container][upstream-api] and call it over HTTP. All three mean
+a JVM somewhere in your stack: a base image to maintain, a service to keep up, or
+a subprocess and a file handoff.
 
-This is the same rule set, reimplemented, so that validating a feed costs a
-`pip install` instead of a base image. It only validates. For working with the
-feed data itself, [`gtfs-kit`][gtfs-kit] is good and does not overlap.
+This is the same rule set, reimplemented, for the case where you would rather
+have none of that: `pip install`, then import it or call it, in the runner you
+already have. It only validates. For working with the feed data itself,
+[`gtfs-kit`][gtfs-kit] is good and does not overlap.
 
 ## How close is it?
 
@@ -173,4 +175,6 @@ its Apache-2.0 licence: the HTML report template, and two data files generated b
 running the jar. [`NOTICE`](NOTICE) names each one and explains the shared name.
 
 [upstream]: https://github.com/MobilityData/gtfs-validator
+[upstream-docker]: https://github.com/MobilityData/gtfs-validator#using-docker
+[upstream-api]: https://github.com/MobilityData/gtfs-validator-api
 [gtfs-kit]: https://pypi.org/project/gtfs-kit/
