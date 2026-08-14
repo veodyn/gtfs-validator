@@ -45,11 +45,11 @@ jobs:
   differential:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           # JDK 17 specifically. Divergence 14 is upstream printing a number the way
           # a pre-19 JDK does, so a newer JDK would silently close a difference this
