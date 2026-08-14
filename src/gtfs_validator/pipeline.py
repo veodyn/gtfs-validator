@@ -10,11 +10,12 @@ import tempfile
 from datetime import date
 from pathlib import Path
 
-from gtfs_validator.container import GEOJSON_FILE, open_feed
+from gtfs_validator.container import open_feed
 from gtfs_validator.context import Context
 from gtfs_validator.indexing import check_indexes
-from gtfs_validator.loading import _load_geojson, _load_table, _system_error
+from gtfs_validator.loading import _system_error
 from gtfs_validator.notices import NoticeContainer
+from gtfs_validator.reading import load_tables
 from gtfs_validator.rules.feedview import FeedView
 from gtfs_validator.rules.runner import run_rules
 from gtfs_validator.schema import load_schemas
@@ -64,7 +65,7 @@ def run_validation(
             tempfile.TemporaryDirectory(prefix="gtfs-validator-") as work,
             FeedStore.open(Path(work) / "feed.sqlite") as store,
         ):
-            loads = _load_all(
+            loads = load_tables(
                 feed, path, schemas, store, notices, system_errors, country_code, threads
             )
             check_indexes(store, schemas, notices, loads)
@@ -106,54 +107,6 @@ def run_validation(
     finally:
         feed.close()
     return (facts, True)
-
-
-def _load_all(
-    feed,
-    path: Path,
-    schemas,
-    store: FeedStore,
-    notices: NoticeContainer,
-    system_errors: NoticeContainer,
-    country_code: str,
-    threads: int,
-) -> dict[str, TableLoad]:
-    """Stage 2 and 3 for every table, by whichever path the thread count selects."""
-    loads: dict[str, TableLoad] | None = None
-    if threads > 1:
-        # The parallel path is opt-in and must be invisible:
-        # tools/diff_across_threads.sh holds it to byte-identical reports. None
-        # demands the sequential path for an archive the split cannot represent
-        # (duplicate entry names).
-        from gtfs_validator.parallel_load import load_tables_parallel
-
-        loads = load_tables_parallel(
-            feed, path, schemas, store, notices, system_errors, country_code, threads
-        )
-    if loads is None:
-        loads = {}
-        for filename in feed.filenames:
-            schema = schemas.get(filename)
-            if schema is None:
-                continue  # unknown_file already fired in stage 1
-            try:
-                loads[filename] = _load_table(feed, schema, store, notices, country_code)
-            except Exception as exc:  # noqa: BLE001 - reported, not swallowed
-                # The loader raised partway through, so the store may hold a
-                # prefix of this table. Drop it: indexing a half-loaded table
-                # would emit duplicate_key notices a full load would not.
-                store.drop_table(filename)
-                loads.pop(filename, None)
-                _system_error(system_errors, filename, exc)
-    # locations.geojson is not a .txt table, so it is loaded on its own path. Its
-    # TableLoad joins the same map, so a file that ends UNPARSABLE_ROWS looks
-    # empty to a file rule exactly as a CSV table in that state does.
-    if GEOJSON_FILE in feed.entry_of:
-        try:
-            loads[GEOJSON_FILE] = _load_geojson(feed, notices, store)
-        except Exception as exc:  # noqa: BLE001 - reported, not swallowed
-            _system_error(system_errors, GEOJSON_FILE, exc)
-    return loads
 
 
 def _run(
