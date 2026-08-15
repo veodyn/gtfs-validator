@@ -13,7 +13,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gtfs-lint"
-version = "0.1.1"
+version = "0.1.2"
 description = "Renamed to gtfs-validator. This is an alias that installs it."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -23,7 +23,7 @@ license = "MIT"
 # and re-uploading this package for every gtfs-validator release. The floor is the
 # release this alias was cut beside, so it can never resolve to something older
 # than the rename.
-dependencies = ["gtfs-validator>=0.1.1"]
+dependencies = ["gtfs-validator>=0.1.2"]
 classifiers = [
     "Development Status :: 7 - Inactive",
     "Programming Language :: Python :: 3",

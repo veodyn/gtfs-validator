@@ -11,6 +11,15 @@ they exist before it blames the realtime data for a broken static feed.
 `load_tables` lives here rather than in `pipeline` so that both entry points
 share one loading path. Two would drift, and the one nobody runs the
 differentials against would drift first.
+
+`open_raw_view` is the second read surface, and it is deliberately not the first
+one with the typing turned off. It answers with the CSV's own text and never
+withholds a table, which is what a caller reproducing a *lenient* reader needs:
+org.onebusaway's GtfsReader, the one MobilityData's GTFS-Realtime validator
+loads its static feed with, types nothing, validates nothing, and has no notion
+of a table that failed. Reading a feed through the strict path and hoping is not
+the same thing, because the strict path's answer for such a feed is no rows at
+all. See `RawView` for what this costs a caller in exchange.
 """
 
 from __future__ import annotations
@@ -21,7 +30,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
-from gtfs_validator.container import GEOJSON_FILE, open_feed
+from gtfs_validator.container import GEOJSON_FILE, FeedContainer, open_feed
+from gtfs_validator.csvparse import parse_table
 from gtfs_validator.loading import _load_geojson, _load_table, _system_error
 from gtfs_validator.notices import NoticeContainer
 from gtfs_validator.rules.feedview import FeedView
@@ -143,5 +153,93 @@ def open_feed_view(
                 system_errors=system_errors,
                 tables=frozenset(loads),
             )
+    finally:
+        feed.close()
+
+
+class RawView:
+    """One archive's cells as text, for a caller that does its own typing.
+
+    The opposite of `FeedView` in every way that matters. Nothing is typed,
+    nothing is range-checked, nothing is mapped to an enum, no notice is
+    produced and no table is ever withheld: a row that costs the strict path the
+    whole of its table is a row like any other here, because a reader holding no
+    schema has no cell it can refuse. `40.7` comes back as `"40.7"` and a blank
+    cell as `""`, since deciding that a blank means null belongs to whichever
+    model the caller is reproducing.
+
+    What the caller gives up is everything the schema buys: the strict path's
+    notices, its `dependency_failed`, and any assurance that a column holds what
+    its name suggests. This is a read surface for reproducing another reader,
+    not a shortcut around validation.
+
+    Two things are still the parser's rather than the file's, and both are
+    upstream's own behaviour rather than a convenience. An unquoted field loses
+    its surrounding whitespace, which is what univocity does and what onebusaway
+    therefore sees. A row whose length disagrees with the header is dropped, and
+    so is a row past the billionth.
+    """
+
+    def __init__(self, feed: FeedContainer, tables: frozenset[str] | None) -> None:
+        self._feed = feed
+        self._wanted = tables
+        #: The tables this view will read: the caller's list, or every `.txt`
+        #: table the archive carries when it asked for no list.
+        self.tables = frozenset(feed.filenames) if tables is None else tables
+
+    def rows(self, filename: str) -> Iterator[dict[str, str]]:
+        """Every row of one table, keyed by the header's own column names.
+
+        Each row carries `_row_number`, numbered exactly as the strict path
+        numbers it: by physical line, 1-based including the header, so the first
+        data row is 2. That is what lets a caller line the two reads up.
+
+        A table the archive does not carry reads as no rows, because an absent
+        optional file and an empty one are the same thing to a reader with no
+        schema. A table outside an explicit `tables` raises `KeyError` instead,
+        since asking for one is a mistake in the caller rather than a fact about
+        the feed. A view opened for every table restricts nothing and so never
+        raises here.
+        """
+        if self._wanted is not None and filename not in self._wanted:
+            raise KeyError(f"{filename} was not among the tables this view was opened for")
+        if not self._feed.is_readable(filename):
+            return iter(())
+        # The notices are computed and dropped rather than never computed: they
+        # are the strict path's opinion about a file this surface has none about,
+        # and `parse_table` is the only reader that reproduces univocity's
+        # quoting, its BOM handling and its column cap.
+        return parse_table(
+            self._feed,
+            filename,
+            NoticeContainer(),
+            stop_on_header_errors=False,
+        )
+
+    def is_missing(self, filename: str) -> bool:
+        """Whether the archive lacks the file, as `FeedView.is_missing` reports it."""
+        return filename not in self._feed.entry_of
+
+
+@contextmanager
+def open_raw_view(
+    path: Path,
+    *,
+    tables: Collection[str] | None = None,
+) -> Iterator[RawView]:
+    """Open a feed and yield an untyped read surface over its tables.
+
+    The archive is owned by this context and is closed when the block exits, so
+    the yielded `RawView` must not outlive it. There is no store and no
+    temporary database: rows are streamed from the archive on each call to
+    `rows`, so reading a table twice reads the file twice.
+
+    `tables` names the files the view will answer for, defaulting to every table
+    the archive carries. Unlike `open_feed_view` it costs nothing to widen: no
+    table is read until it is asked for.
+    """
+    feed = open_feed(path)
+    try:
+        yield RawView(feed, None if tables is None else frozenset(tables))
     finally:
         feed.close()

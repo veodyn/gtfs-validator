@@ -135,7 +135,16 @@ def parse_table(
     known_columns: Iterable[str] = (),
     load: TableLoad | None = None,
     max_chars_per_column: int = DEFAULT_MAX_CHARS_PER_COLUMN,
+    stop_on_header_errors: bool = True,
 ) -> Iterator[Row]:
+    """Stream one table's rows as text, reporting header and row-shape problems.
+
+    `stop_on_header_errors` is what `CsvFileLoader` does and what every caller in
+    the validating path wants: an ERROR in the header returns a container marked
+    INVALID_HEADERS and the rows are never scanned. `reading.open_raw_view`
+    passes False, because a reader with no schema has no header it can refuse
+    and withholding the rows is the one thing it must never do.
+    """
     load = load if load is not None else TableLoad()
     with feed.open_table(filename) as raw:
         # utf-8-sig strips a BOM if present; upstream tolerates one silently.
@@ -201,7 +210,7 @@ def parse_table(
             known_columns,
         )
         notices.merge(header_notices)
-        if header_notices.has_errors():
+        if stop_on_header_errors and header_notices.has_errors():
             load.fail(TableStatus.INVALID_HEADERS)
             return
 
