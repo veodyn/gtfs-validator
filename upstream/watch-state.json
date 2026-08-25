@@ -8,8 +8,8 @@
   "spec": {
     "repo": "google/transit",
     "path": "gtfs/spec/en/reference.md",
-    "commit": "ac663b574aae7223e45044b7733a1f101f0ab907",
-    "subject": "Update revision history - April 2026 (#627)"
+    "commit": "3215f98f26615f1b925dca1bf2205311b747e308",
+    "subject": "fix(transfers): min_transfer_time is conditionally required for timed transfers (#640)"
   },
-  "checked": "2026-07-29"
+  "checked": "2026-08-25"
 }

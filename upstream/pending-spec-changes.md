@@ -22,9 +22,22 @@ Reads as: <new notice code | schema field only | wording only>
 
 ---
 
-Empty as of 2026-07-29.
+## 2026-08-25 - min_transfer_time is conditionally required for timed transfers (transit#640)
+Sha: 3215f98f26615f1b925dca1bf2205311b747e308
+Touches: transfers.txt, min_transfer_time (Optional -> Conditionally Required,
+required when transfer_type is 2)
+Reads as: schema field only
 
-Measured that day: every field table in `google/transit@HEAD`
+A presence flip on one field. When the release arrives it lands in
+`table_schemas.json` as `presence: CONDITIONALLY_REQUIRED`, which our loader
+treats as inert exactly as upstream does: only `REQUIRED` draws
+`missing_required_field` (`typing_checks.py`). Enforcing the actual condition
+needs a validator upstream has not written, and no code in
+`canonical_notices.json` covers it today.
+
+## Baseline
+
+Measured 2026-07-29: every field table in `google/transit@HEAD`
 (`gtfs/spec/en/reference.md`, 31 file sections) matches
 `src/gtfs_validator/data/table_schemas.json` field for field, including the newest
 additions (`trips.safe_duration_factor` and `safe_duration_offset` from
@@ -33,5 +46,5 @@ transit#598, `agency.cemv_support` from #545, `stops.stop_access` from #515,
 last substantive spec change landed 2026-04-22, so the jar had absorbed
 everything before we pinned it.
 
-The empty state is the expected one. Entries accumulate only between a spec
-merge and the upstream release that implements it.
+Entries accumulate only between a spec merge and the upstream release that
+implements it.
