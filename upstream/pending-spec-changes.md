@@ -22,6 +22,30 @@ Reads as: <new notice code | schema field only | wording only>
 
 ---
 
+## 2026-09-29 - shapes.txt is conditionally required, recommended otherwise (transit#660)
+Sha: 3c9e7b904b5035349622f03e11851e25c16d1d99
+Touches: shapes.txt file presence (Optional -> Conditionally Required: required
+when a trip has continuous pickup or drop-off defined in routes.txt or
+stop_times.txt, recommended otherwise). No field table changes.
+Reads as: new notice code
+
+A file-level presence flip in two halves. The "recommended otherwise" half is
+mechanical: an `@Recommended` on the table interface lands in
+`table_schemas.json` as `presence: RECOMMENDED` through
+`tools/sync_upstream_schemas.py`, and `container.py` already reports every such
+absent table as `missing_recommended_file`. The "required when continuous"
+half needs a validator upstream has not written, reading
+`routes.continuous_pickup`, `routes.continuous_drop_off`,
+`stop_times.continuous_pickup` and `stop_times.continuous_drop_off` against
+`trips.shape_id`. No code in `canonical_notices.json` covers it today, so when
+the release arrives it shows up as a new key under `notices`.
+
+## 2026-09-29 - Update language code reference link (transit#658)
+Sha: dacd5537c2cb65ef8172226936816b9d77668529
+Touches: the "Language code" field-type definition prose (the BCP 47 reference
+URL). No table or field.
+Reads as: wording only
+
 ## 2026-08-25 - min_transfer_time is conditionally required for timed transfers (transit#640)
 Sha: 3215f98f26615f1b925dca1bf2205311b747e308
 Touches: transfers.txt, min_transfer_time (Optional -> Conditionally Required,
